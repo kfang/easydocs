@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="default"
+		module="easydoc$sbt_2.11"
+		revision="0.0.1-SNAPSHOT"
+		status="integration"
+		publication="20141126084326"
+	/>
+	<configurations>
+		<conf name="default" visibility="public"/>
+	</configurations>
+	<publications>
+	</publications>
+	<dependencies>
+		<dependency org="org.scala-sbt" name="sbt" rev="0.13.5" conf="default->default(compile)"/>
+		<dependency org="io.spray" name="sbt-revolver" rev="0.7.2" conf="default->default(compile)" scalaVersion="2.10" sbtVersion="0.13"/>
+	</dependencies>
+</ivy-module>
