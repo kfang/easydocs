@@ -16,7 +16,7 @@ trait HomeRoutes {
         <div id="container-fluid">
           <div class="row">
             {navigation}
-            <div class="col-md-10">
+            <div class="col-md-8">
               <h1>Home</h1>
             </div>
           </div>
