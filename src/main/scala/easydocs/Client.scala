@@ -16,12 +16,13 @@ import scala.concurrent.{ExecutionContext, Future}
 class Client(implicit ec: ExecutionContext) {
 
   private val useLocal = false
+  private val ES_HOST = sys.env.getOrElse("ES_HOST", "localhost")
 
   val client = if(useLocal) {
     ElasticClient.local
   } else {
     val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
-    ElasticClient.remote(elasticSearchSettings, ("elastic", 9300))
+    ElasticClient.remote(elasticSearchSettings, (ES_HOST, 9300))
   }
   val indexType = "easydoc" -> "endpoint"
   val mapper = new ObjectMapper()
@@ -38,17 +39,22 @@ class Client(implicit ec: ExecutionContext) {
   //create the index if it doesn't exist
   createIndex()
 
-  def getRoutes: Future[List[(String, List[String])]] = {
+  def getNavigationItems: Future[List[NavigationItem]] = {
     client.execute(search.in(indexType).aggs(
       agg.terms("routes").field("route").order(Order.term(true)).size(10000).aggs(
-        agg.terms("methods").field("method").order(Order.term(true)).size(10)
+        agg.terms("methods").field("method").order(Order.term(true)).size(10).aggs(
+          agg.terms("types").field("contentType").order(Order.term(true)).size(10)
+        )
       )
     ).limit(0)).map(sr => {
       sr.getAggregations.get[Terms]("routes").getBuckets.toList.map(bucket => {
         val route = bucket.getKey
-        val methods = bucket.getAggregations.get[Terms]("methods").getBuckets.map(_.getKey).toList
-        route -> methods
-      })
+        bucket.getAggregations.get[Terms]("methods").getBuckets.map(methodBucket => {
+          val method = methodBucket.getKey
+          val cTypes = methodBucket.getAggregations.get[Terms]("types").getBuckets.map(_.getKey).toList
+          cTypes.map(cType => NavigationItem(method, route, cType))
+        }).toList
+      }).flatten.flatten
     })
   }
 

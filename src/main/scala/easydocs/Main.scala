@@ -14,7 +14,7 @@ object Main
 
   import system.dispatcher
 
-  startServer("localhost", port = 8080)({
+  startServer("0.0.0.0", port = 8080)({
     Endpoint.routes(esClient) ~
     AddEndpoint.routes(esClient) ~
     deleteEndpointRoute ~
