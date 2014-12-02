@@ -4,7 +4,7 @@
 		module="easydoc$sbt_2.11"
 		revision="0.0.1-SNAPSHOT"
 		status="integration"
-		publication="20141126084326"
+		publication="20141202092025"
 	/>
 	<configurations>
 		<conf name="default" visibility="public"/>

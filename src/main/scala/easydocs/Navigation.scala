@@ -5,7 +5,7 @@ import scala.concurrent.ExecutionContext
 class Navigation(implicit ec: ExecutionContext) {
 
   def build(client: Client) = {
-    client.getRouteSlugs.map(routes => {
+    client.getRoutes.map(routes => {
       <div class="col-md-2" style="background: #dddddd; height: 100%">
         <!-- Search Form -->
         <form class="form-inline" role="form" style="margin-top: 10px; margin-left: 10px" action="/search">
@@ -17,7 +17,11 @@ class Navigation(implicit ec: ExecutionContext) {
         <h1 style="margin-left: 10px">Navigation</h1>
         <ul>
           <li><a href="/">Home</a></li>
-          {routes.map(r => <li><a href={"/endpoints/" + r}>{r}</a></li>)}
+          {routes.map({case (route, methods) =>
+            methods.map(method => {
+              <li><a href={"/endpoints/" + slugify(method, route)}>{route + " => " + method}</a></li>
+            })
+          })}
           <li><a href="/add">+ add</a></li>
         </ul>
 

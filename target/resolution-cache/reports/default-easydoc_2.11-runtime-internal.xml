@@ -7,7 +7,7 @@
 		revision="0.0.1-SNAPSHOT"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20141126084327"/>
+		date="20141202092024"/>
 	<dependencies>
 		<module organisation="com.fasterxml.jackson.module" name="jackson-module-scala_2.10">
 			<revision name="2.3.3" status="release" pubdate="20140414192510" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://wiki.fasterxml.com/JacksonModuleScala" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="35">

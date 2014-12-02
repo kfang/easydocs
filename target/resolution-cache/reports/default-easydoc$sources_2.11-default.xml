@@ -7,7 +7,7 @@
 		revision="0.0.1-SNAPSHOT"
 		conf="default"
 		confs="default"
-		date="20141126084326"/>
+		date="20141202092025"/>
 	<dependencies>
 		<module organisation="io.spray" name="sbt-revolver">
 			<revision name="0.7.2" status="release" pubdate="20140317104258" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/spray/sbt-revolver" extra-scalaVersion="2.10" extra-sbtVersion="0.13" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="44">

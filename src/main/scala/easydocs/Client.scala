@@ -15,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class Client(implicit ec: ExecutionContext) {
 
-  private val useLocal = true
+  private val useLocal = false
 
   val client = if(useLocal) {
     ElasticClient.local
@@ -35,9 +35,10 @@ class Client(implicit ec: ExecutionContext) {
     "authentication".typed(StringType).analyzer(KeywordAnalyzer)
   )
 
+  //create the index if it doesn't exist
   createIndex()
 
-  def getRouteSlugs: Future[List[String]] = {
+  def getRoutes: Future[List[(String, List[String])]] = {
     client.execute(search.in(indexType).aggs(
       agg.terms("routes").field("route").order(Order.term(true)).size(10000).aggs(
         agg.terms("methods").field("method").order(Order.term(true)).size(10)
@@ -46,8 +47,8 @@ class Client(implicit ec: ExecutionContext) {
       sr.getAggregations.get[Terms]("routes").getBuckets.toList.map(bucket => {
         val route = bucket.getKey
         val methods = bucket.getAggregations.get[Terms]("methods").getBuckets.map(_.getKey).toList
-        methods.map(method => slugify(method, route))
-      }).flatten
+        route -> methods
+      })
     })
   }
 
