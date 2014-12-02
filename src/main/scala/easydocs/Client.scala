@@ -35,6 +35,8 @@ class Client(implicit ec: ExecutionContext) {
     "authentication".typed(StringType).analyzer(KeywordAnalyzer)
   )
 
+  createIndex()
+
   def getRouteSlugs: Future[List[String]] = {
     client.execute(search.in(indexType).aggs(
       agg.terms("routes").field("route").order(Order.term(true)).size(10000).aggs(
