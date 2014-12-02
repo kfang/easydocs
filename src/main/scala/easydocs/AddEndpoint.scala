@@ -20,7 +20,7 @@ object AddEndpoint extends Directives {
             <div class="container-fluid">
               <div class="row">
                 {navigation}
-                <div class="col-md-10">
+                <div class="col-md-8">
                   <h1>Add Endpoint</h1>
                   {Endpoint.formBuilder(None)}
                 </div>
