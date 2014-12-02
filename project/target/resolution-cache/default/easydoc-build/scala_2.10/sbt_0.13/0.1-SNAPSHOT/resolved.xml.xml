@@ -4,7 +4,7 @@
 		module="easydoc-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20141202092022"
+		publication="20141202100913"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>
@@ -37,5 +37,6 @@
 		<dependency org="org.scala-lang" name="scala-library" rev="2.10.4" conf="scala-tool->default,optional(default);provided->default(compile)"/>
 		<dependency org="org.scala-sbt" name="sbt" rev="0.13.5" conf="provided->default(compile)"/>
 		<dependency org="io.spray" name="sbt-revolver" rev="0.7.2" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
+		<dependency org="se.marcuslonnberg" name="sbt-docker" rev="0.5.2" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
 	</dependencies>
 </ivy-module>

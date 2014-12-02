@@ -9,8 +9,20 @@
 		extra-sbtVersion="0.13"
 		conf="runtime"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20141202092022"/>
+		date="20141202100913"/>
 	<dependencies>
+		<module organisation="se.marcuslonnberg" name="sbt-docker">
+			<revision name="0.5.2" status="release" pubdate="20140817124430" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/marcuslonnberg/sbt-docker" extra-scalaVersion="2.10" extra-sbtVersion="0.13" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+				<license name="MIT License" url="https://github.com/marcuslonnberg/sbt-docker/blob/master/LICENSE"/>
+				<metadata-artifact status="no" details="" size="3097" time="0" location="/home/kevin/.ivy2/cache/scala_2.10/sbt_0.13/se.marcuslonnberg/sbt-docker/ivy-0.5.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/se/marcuslonnberg/sbt-docker_2.10_0.13/0.5.2/sbt-docker-0.5.2.pom"/>
+				<caller organisation="default" name="easydoc-build" conf="compile, runtime" rev="0.5.2" rev-constraint-default="0.5.2" rev-constraint-dynamic="0.5.2" callerrev="0.1-SNAPSHOT" extra-scalaVersion="2.10" extra-sbtVersion="0.13"/>
+				<artifacts>
+					<artifact name="sbt-docker" type="jar" ext="jar" status="no" details="" size="149573" time="0" location="/home/kevin/.ivy2/cache/scala_2.10/sbt_0.13/se.marcuslonnberg/sbt-docker/jars/sbt-docker-0.5.2.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/se/marcuslonnberg/sbt-docker_2.10_0.13/0.5.2/sbt-docker-0.5.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="io.spray" name="sbt-revolver">
 			<revision name="0.7.2" status="release" pubdate="20140317104258" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/spray/sbt-revolver" extra-scalaVersion="2.10" extra-sbtVersion="0.13" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
 				<license name="Apache License 2.0" url="https://github.com/spray/sbt-revolver/raw/master/LICENSE"/>

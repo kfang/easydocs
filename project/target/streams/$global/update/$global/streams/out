@@ -11,20 +11,37 @@
 [debug] sbt-chain: module revision found in cache: io.spray#sbt-revolver;0.7.2
 [debug] 	typesafe-ivy-releases: revision in cache: io.spray#sbt-revolver;0.7.2
 [debug] 	found io.spray#sbt-revolver;0.7.2 in sbt-chain
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[info] Resolving se.marcuslonnberg#sbt-docker;0.5.2 ...
+[debug] sbt-chain: Checking cache for: dependency: se.marcuslonnberg#sbt-docker;0.5.2 {compile=[default(compile)]}
+[debug] sbt-chain: module revision found in cache: se.marcuslonnberg#sbt-docker;0.5.2
+[debug] 	typesafe-ivy-releases: revision in cache: se.marcuslonnberg#sbt-docker;0.5.2
+[debug] 	found se.marcuslonnberg#sbt-docker;0.5.2 in sbt-chain
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] resolving dependencies for configuration 'runtime'
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [runtime]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->io.spray#sbt-revolver;0.7.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] resolving dependencies for configuration 'test'
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [test]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [runtime]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->io.spray#sbt-revolver;0.7.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] resolving dependencies for configuration 'provided'
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [provided]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.4 [provided->default(compile)]
 [info] Resolving org.scala-lang#scala-library;2.10.4 ...
-[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@684c4cb7
+[debug] sbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@59e00475
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.10.4
 [debug] 	typesafe-ivy-releases: revision in cache: org.scala-lang#scala-library;2.10.4
 [debug] 	found org.scala-lang#scala-library;2.10.4 in sbt-chain
@@ -583,6 +600,10 @@
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile-internal]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->io.spray#sbt-revolver;0.7.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [optional]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [provided]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.4 [provided->default(compile)]
@@ -914,6 +935,10 @@
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [runtime]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->io.spray#sbt-revolver;0.7.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [optional]
 [debug] resolving dependencies for configuration 'test-internal'
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [test-internal]
@@ -921,6 +946,10 @@
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [runtime]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [compile]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->io.spray#sbt-revolver;0.7.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->default(compile)]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->runtime]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->compile]
+[debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->se.marcuslonnberg#sbt-docker;0.5.2 [compile->master]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [optional]
 [debug] == resolving dependencies for default#easydoc-build;0.1-SNAPSHOT [provided]
 [debug] == resolving dependencies default#easydoc-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.4 [provided->default(compile)]
@@ -1301,6 +1330,7 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] io.spray#sbt-revolver;0.7.2!sbt-revolver.jar
+[debug] 	[NOT REQUIRED] se.marcuslonnberg#sbt-docker;0.5.2!sbt-docker.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.10.4!scala-library.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#sbt;0.13.5!sbt.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#main;0.13.5!main.jar
@@ -1349,7 +1379,7 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.5!apply-macro.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#jline;2.10.4!jline.jar
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar
-[debug] :: resolution report :: resolve 652ms :: artifacts dl 12ms
+[debug] :: resolution report :: resolve 778ms :: artifacts dl 14ms
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT compile produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-compile.xml
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT runtime produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-runtime.xml
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT test produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-test.xml
@@ -1363,5 +1393,5 @@
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT docs produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-docs.xml
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT pom produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-pom.xml
 [debug] 	report for default#easydoc-build;0.1-SNAPSHOT scala-tool produced in /home/kevin/IdeaProjects/easydoc/project/target/resolution-cache/reports/default-easydoc-build-scala-tool.xml
-[debug] 	resolve done (652ms resolve - 12ms download)
+[debug] 	resolve done (778ms resolve - 14ms download)
 [info] Done updating.
