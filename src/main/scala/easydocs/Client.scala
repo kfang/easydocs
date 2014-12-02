@@ -15,7 +15,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class Client(implicit ec: ExecutionContext) {
 
-  val client = {
+  private val useLocal = true
+
+  val client = if(useLocal) {
+    ElasticClient.local
+  } else {
     val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
     ElasticClient.remote(elasticSearchSettings, ("localhost",9300))
   }
@@ -31,11 +35,17 @@ class Client(implicit ec: ExecutionContext) {
     "authentication".typed(StringType).analyzer(KeywordAnalyzer)
   )
 
-  def getRoutes(): Future[List[String]] = {
+  def getRouteSlugs: Future[List[String]] = {
     client.execute(search.in(indexType).aggs(
-      agg.terms("routes").field("route").order(Order.term(true)).size(10000)
+      agg.terms("routes").field("route").order(Order.term(true)).size(10000).aggs(
+        agg.terms("methods").field("method").order(Order.term(true)).size(10)
+      )
     ).limit(0)).map(sr => {
-      sr.getAggregations.get[Terms]("routes").getBuckets.map(_.getKey).toList
+      sr.getAggregations.get[Terms]("routes").getBuckets.toList.map(bucket => {
+        val route = bucket.getKey
+        val methods = bucket.getAggregations.get[Terms]("methods").getBuckets.map(_.getKey).toList
+        methods.map(method => slugify(method, route))
+      }).flatten
     })
   }
 
@@ -61,7 +71,7 @@ class Client(implicit ec: ExecutionContext) {
   }
 
   def insertEndpoint(e: Endpoint): Future[Boolean] = {
-    val cmd = index.into(indexType).doc(ObjectSource(e)).id(slugify(e.route))
+    val cmd = index.into(indexType).doc(ObjectSource(e)).id(slugify(e))
     client.execute(cmd)
       .map(ir => true)
       .recover({case e: Exception => println(e.getMessage); false})

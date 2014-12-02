@@ -2,10 +2,12 @@ import scala.xml.Elem
 
 package object easydocs {
 
-  def slugify(route: String): String = {
+  def slugify(method: String, route: String) = {
     val s = route.toLowerCase.replaceAll("/", "-")
-    if(s.startsWith("-")) s.substring(1) else s
+    if (s.startsWith("-")) method.toLowerCase + s else method.toLowerCase + "-" + s
   }
+
+  def slugify(e: Endpoint): String = slugify(e.method, e.route)
 
   def header = {
     <head>
@@ -19,10 +21,10 @@ package object easydocs {
   def endpointActions(endpoint: Endpoint): Elem = {
     <div class="col-md-2" style="background: #dddddd; height: 100%">
       <h1>Actions:</h1>
-      <form role="form" action={"/endpoints/" + slugify(endpoint.route) + "/delete"} method="post">
+      <form role="form" action={"/endpoints/" + slugify(endpoint) + "/delete"} method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
-      <form role="form" action={"/endpoints/" + slugify(endpoint.route) + "/update"} method="get">
+      <form role="form" action={"/endpoints/" + slugify(endpoint) + "/update"} method="get">
         <button type="submit" class="btn btn-info">Update</button>
       </form>
     </div>
