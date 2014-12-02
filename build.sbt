@@ -2,6 +2,8 @@ import DockerKeys._
 
 import sbtdocker.mutable.Dockerfile
 
+import sbtdocker.ImageName
+
 name := "easydoc"
 
 version := "0.0.1-SNAPSHOT"
@@ -47,6 +49,13 @@ dockerfile in docker := {
     // On launch run Java with the classpath and the main class
     entryPoint("java", "-cp", classpathString, mainclass)
   }
+}
+
+imageName in docker := {
+  ImageName(
+    namespace = Some("devbase:5000"),
+    repository = "easydocs",
+    tag = sys.env.get("BUILD_NUMBER"))
 }
 
 

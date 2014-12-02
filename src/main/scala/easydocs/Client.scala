@@ -21,7 +21,7 @@ class Client(implicit ec: ExecutionContext) {
     ElasticClient.local
   } else {
     val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
-    ElasticClient.remote(elasticSearchSettings, ("localhost",9300))
+    ElasticClient.remote(elasticSearchSettings, ("elastic", 9300))
   }
   val indexType = "easydoc" -> "endpoint"
   val mapper = new ObjectMapper()
