@@ -1,4 +1,9 @@
+import spray.http.{HttpEntity, MediaTypes}
+import spray.httpx.marshalling.Marshaller
+
 import scala.xml.Elem
+import scala.language.implicitConversions
+import scalatags.Text.TypedTag
 
 package object easydocs {
 
@@ -14,6 +19,12 @@ package object easydocs {
 
   def slugify(e: Endpoint): String = slugify(e.method, e.route, e.contentType)
   def slugify(i: NavigationItem): String = slugify(i.method, i.route, i.contentType)
+
+
+  implicit val typedTagMarshaller = Marshaller.of[TypedTag[String]](MediaTypes.`text/html`){
+    (value, contentType, ctx) =>
+      ctx.marshalTo(HttpEntity(contentType, value.toString()))
+  }
 
   def header = {
     <head>
