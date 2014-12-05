@@ -2,19 +2,19 @@ package easydocs.templates
 
 import easydocs.Client
 import scala.concurrent.ExecutionContext
-import scalatags.Text
+import scalatags.Text.TypedTag
 import scalatags.Text.all._
 
-class Content(client: Client)(implicit ec: ExecutionContext) {
+class Content(inner: TypedTag[String]*)(implicit ec: ExecutionContext, client: Client) {
 
-  def render[T <: String](inner: Text.TypedTag[T]) = for {
+  def render = for {
     navigation <- new Navigation(client).render
   } yield {
     body(
       div(id:="container-fluid",
         div(`class`:="row",
           navigation,
-          div(`class`:="col-md-8",
+          div(`class`:="col-md-9",
             inner
           )
         )

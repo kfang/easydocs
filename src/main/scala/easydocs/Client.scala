@@ -12,6 +12,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms.Order
 
 import scala.collection.JavaConversions._
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success, Try}
 
 class Client(implicit ec: ExecutionContext) {
 
@@ -66,9 +67,9 @@ class Client(implicit ec: ExecutionContext) {
   }
 
   def createIndex(): Unit = {
-    client.execute(create.index("easydoc").mappings(mapping).replicas(0).shards(10))
+    client.execute(create.index("easydoc").mappings(mapping).replicas(0).shards(5))
       .map(cir => println("create index: " + cir.isAcknowledged))
-      .recover({case e: Exception => println(e.getMessage)})
+      .recover({case e: Exception => println(e.getCause.getMessage)})
   }
 
   def dropDocs() = {
@@ -79,11 +80,16 @@ class Client(implicit ec: ExecutionContext) {
     client.execute(delete.from(indexType).where(ids(slug)))
   }
 
-  def insertEndpoint(e: Endpoint): Future[Boolean] = {
-    val cmd = index.into(indexType).doc(ObjectSource(e)).id(slugify(e))
+  def insertEndpoint(e: Endpoint): Future[Boolean] = Try {
+    val src = ObjectSource(e)
+    val slug = templates.slugify(e)
+    val cmd = index.into(indexType).doc(src).id(slug)
     client.execute(cmd)
-      .map(ir => true)
+      .map(ir => {println("true"); true})
       .recover({case e: Exception => println(e.getMessage); false})
+  } match {
+    case Success(f) => f
+    case Failure(e) => println(e.getMessage); Future.successful(false)
   }
 
   def getEndpoint(slug: String): Future[Endpoint] = {

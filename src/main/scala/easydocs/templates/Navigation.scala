@@ -7,8 +7,7 @@ import scalatags.Text.all._
 class Navigation(client: Client)(implicit ec: ExecutionContext) {
 
   private def asLink(navItem: NavigationItem) = {
-    println(navItem)
-    li(a(href:={"/endpoints/" + easydocs.slugify(navItem)}, s"${navItem.route} => ${navItem.method} (${navItem.shortenedCType})"))
+    li(a(href:={"/web/endpoints/" + slugify(navItem)}, s"${navItem.route} => ${navItem.method} (${navItem.shortenedCType})"))
   }
 
   def render = for {
@@ -24,9 +23,9 @@ class Navigation(client: Client)(implicit ec: ExecutionContext) {
       h1(style:="margin-left: 10px", "Navigation"),
 
       ul(
-        li(a(href:="/", "Home")),
+        li(a(href:="/web", "Home")),
         for(item <- navItems) yield asLink(item),
-        li(a(href:="/add", "+ add"))
+        li(a(href:="/web/endpoints/add", "+ add"))
       )
     )
   }
