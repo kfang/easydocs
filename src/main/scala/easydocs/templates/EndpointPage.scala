@@ -1,8 +1,10 @@
 package easydocs.templates
 
 import easydocs.{Client, Endpoint}
+import scala.xml.XML
 import scalatags.Text.all._
 import scala.concurrent.{Future, ExecutionContext}
+import com.github.rjeschke.txtmark
 
 class EndpointPage(endpoint: Endpoint)(implicit ec: ExecutionContext, client: Client) {
 
@@ -32,9 +34,15 @@ class EndpointPage(endpoint: Endpoint)(implicit ec: ExecutionContext, client: Cl
       case _        => "#dddddd"
     }
 
+    val preBox = if (endpoint.params.startsWith(">>>markdown")){
+      txtmark.Processor.process(endpoint.params.replace(">>>markdown", ""))
+    } else {
+      pre(endpoint.params).toString()
+    }
+
     div(
       h4(title),
-      pre(endpoint.params)
+      raw(preBox)
     )
   }
 

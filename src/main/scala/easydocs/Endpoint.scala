@@ -3,6 +3,8 @@ package easydocs
 import spray.routing.{Directive1, Directives}
 
 case class Endpoint(
+  topic: Option[String],
+  heading: Option[String],
   method: String,
   route: String,
   description: String,
@@ -19,6 +21,8 @@ case class Endpoint(
 object Endpoint extends Directives {
 
   def urlEncodedForm: Directive1[Endpoint] = formFields(
+    'topic.?,
+    'heading.?,
     'method,
     'route,
     'description,
