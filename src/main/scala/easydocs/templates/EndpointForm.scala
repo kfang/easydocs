@@ -34,6 +34,17 @@ class EndpointForm(endpoint: Option[Endpoint], title: String)(implicit ec: Execu
     }
 
     form(role:="form", action:="/api/endpoints?url=/web", "method".attr:="POST",
+
+      div(`class`:="form-group",
+        label(`for`:="topic-input", "Topic:"),
+        genInput("text", "topic-input", e.flatMap(_.topic), "topic", disableIfValueDefined = false)
+      ),
+
+      div(`class`:="form-group",
+        label(`for`:="heading-input", "Heading:"),
+        genInput("text", "heading-input", e.flatMap(_.heading), "heading", disableIfValueDefined = false)
+      ),
+
       div(`class`:="form-group",
         label(`for`:="method-input", "Method:"),
         select(`class`:="form-control", id:="method-input", name:="method", Seq(if(e.isDefined) Some(disabled:="true") else None),

@@ -1,7 +1,6 @@
 package easydocs.templates
 
 import easydocs.{Client, Endpoint}
-import scala.xml.XML
 import scalatags.Text.all._
 import scala.concurrent.{Future, ExecutionContext}
 import com.github.rjeschke.txtmark
@@ -51,6 +50,10 @@ class EndpointPage(endpoint: Endpoint)(implicit ec: ExecutionContext, client: Cl
       coloredMethod,
       theRouteTitle,
       hr()
+    ),
+    Seq(
+      endpoint.topic.map(topic => h2(topic)),
+      endpoint.heading.map(heading => h3(heading))
     ),
     div(marginTop:="1em",
       table(`class`:="table table-striped", maxWidth:="", minWidth:="30%",
