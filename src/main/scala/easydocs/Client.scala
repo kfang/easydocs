@@ -14,6 +14,9 @@ import scala.collection.JavaConversions._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
+case class HeadingSlug(heading: String, route: String, method: String, cType: String)
+case class TopicHeading(topic: String, headings: List[HeadingSlug])
+
 class Client(implicit ec: ExecutionContext) {
 
   private val useLocal = false
@@ -30,6 +33,8 @@ class Client(implicit ec: ExecutionContext) {
   mapper.registerModule(DefaultScalaModule)
 
   val mapping = "endpoint".as(
+    "topic".typed(StringType).analyzer(KeywordAnalyzer),
+    "heading".typed(StringType).analyzer(KeywordAnalyzer),
     "method".typed(StringType).analyzer(KeywordAnalyzer),
     "route".typed(StringType).analyzer(KeywordAnalyzer),
     "description".typed(StringType).analyzer(SnowballAnalyzer),
@@ -37,8 +42,33 @@ class Client(implicit ec: ExecutionContext) {
     "authentication".typed(StringType).analyzer(KeywordAnalyzer)
   )
 
+
   //create the index if it doesn't exist
   createIndex()
+
+  def getTopics: Future[List[TopicHeading]] = {
+    client.execute(search.in(indexType).aggs(
+      agg.terms("topics").field("topic").order(Order.term(true)).size(1000).aggs(
+        agg.terms("headings").field("heading").order(Order.term(true)).size(1000).aggs(
+          agg.terms("route").field("route").order(Order.term(true)).size(10000),
+          agg.terms("method").field("method").order(Order.term(true)).size(10000),
+          agg.terms("type").field("contentType").order(Order.term(true)).size(10000)
+        )
+      )
+    ).limit(0)).map(sr => {
+      sr.getAggregations.get[Terms]("topics").getBuckets.toList.map(bucket => {
+        val topic = bucket.getKey
+        val headings = bucket.getAggregations.get[Terms]("headings").getBuckets.toList.map(headingBucket => {
+          val route = headingBucket.getAggregations.get[Terms]("route").getBuckets.toList.head.getKey
+          val method = headingBucket.getAggregations.get[Terms]("method").getBuckets.toList.head.getKey
+          val ctype = headingBucket.getAggregations.get[Terms]("type").getBuckets.toList.head.getKey
+          val heading = headingBucket.getKey
+          HeadingSlug(heading, route, method, ctype)
+        })
+        TopicHeading(topic, headings)
+      })
+    })
+  }
 
   def getNavigationItems: Future[List[NavigationItem]] = {
     client.execute(search.in(indexType).aggs(

@@ -1,6 +1,6 @@
 package easydocs.templates
 
-import easydocs.{NavigationItem, Client}
+import easydocs.{HeadingSlug, TopicHeading, NavigationItem, Client}
 import scala.concurrent.ExecutionContext
 import scalatags.Text.all._
 
@@ -10,8 +10,21 @@ class Navigation(client: Client)(implicit ec: ExecutionContext) {
     li(a(href:={"/web/endpoints/" + slugify(navItem)}, s"${navItem.route} => ${navItem.method} (${navItem.shortenedCType})"))
   }
 
+  private def asLink(h: HeadingSlug) = {
+    li(a(href:={"/web/endpoints/" + slugify(h.method, h.route, h.cType)}, h.heading))
+  }
+
+  private def renderTopicHeadings(topics: List[TopicHeading]) = {
+    topics.map(head => {
+      li(head.topic, ul(
+        for(heading <- head.headings) yield asLink(heading)
+      ))
+    })
+  }
+
   def render = for {
-    navItems <- client.getNavigationItems
+    topicHeadings <- client.getTopics
+    navItems      <- client.getNavigationItems
   } yield {
     div(`class`:="col-md-3", style:="background:#dddddd; height:100%",
 
@@ -25,7 +38,8 @@ class Navigation(client: Client)(implicit ec: ExecutionContext) {
       ul(
         li(a(href:="/web", "Home")),
         for(item <- navItems) yield asLink(item),
-        li(a(href:="/web/endpoints/add", "+ add"))
+        li(a(href:="/web/endpoints/add", "+ add")),
+        renderTopicHeadings(topicHeadings)
       )
     )
   }
