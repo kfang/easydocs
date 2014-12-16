@@ -110,9 +110,9 @@ class Client(implicit ec: ExecutionContext) {
     client.execute(delete.from(indexType).where(ids(slug)))
   }
 
-  def insertEndpoint(e: Endpoint): Future[Boolean] = Try {
-    val src = ObjectSource(e)
-    val slug = templates.slugify(e)
+  def insertEndpoint(endpoint: Endpoint): Future[Boolean] = Try {
+    val src = ObjectSource(endpoint)
+    val slug = templates.slugify(endpoint)
     val cmd = index.into(indexType).doc(src).id(slug)
     client.execute(cmd)
       .map(ir => {println("true"); true})
