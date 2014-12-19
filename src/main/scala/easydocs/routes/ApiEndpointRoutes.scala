@@ -1,13 +1,15 @@
 package easydocs.routes
 
+import easydocs.routes.requests.{EndpointUpdateRequest, EndpointCreateRequest}
+import easydocs.routes.requests.EndpointUpdateRequest.EndpointUpdate
 import easydocs.{Endpoint, Services}
 import spray.http.{StatusCodes, Uri}
 import spray.routing.{Route, Directives}
-
 import scala.util.{Failure, Success}
 
+
 trait ApiEndpointRoutes {
-  this: Services with Directives =>
+  this: Services with Directives with JsonSupport =>
 
   import system.dispatcher
 
@@ -17,7 +19,7 @@ trait ApiEndpointRoutes {
     complete(bool.toString)
   }
 
-  private lazy val createEndpointRoute: Route = (
+  private lazy val createEndpointRouteForm: Route = (
     post &
     pathEnd &
     parameters('url.?) &
@@ -40,9 +42,29 @@ trait ApiEndpointRoutes {
     }
   }}
 
+  private val createEndpointRoute: Route = (
+    post &
+    pathEnd &
+    entity(as[EndpointCreateRequest])
+  ){(request) => {
 
-  def apiEndpointRoutes: Route = pathPrefix("endpoints") {
-    createEndpointRoute ~
+    request.getResponse
+
+  }}
+
+  private val updateEndpointRoute: Route = (
+    put &
+    path(JavaUUID) &
+    entity(as[EndpointUpdateRequest])
+  ){(id, request) => {
+
+    request.getResponse()
+
+  }}
+
+
+  val apiEndpointRoutes: Route = pathPrefix("endpoints") {
+    createEndpointRouteForm ~
     deleteEndpointRoute
   }
 

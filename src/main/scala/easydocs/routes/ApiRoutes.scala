@@ -3,7 +3,10 @@ package easydocs.routes
 import easydocs.Services
 import spray.routing.Directives
 
-trait ApiRoutes extends ApiEndpointRoutes {
+trait ApiRoutes
+  extends JsonSupport
+  with ApiEndpointRoutes
+{
   this: Services with Directives =>
 
 
