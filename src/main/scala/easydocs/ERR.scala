@@ -44,4 +44,6 @@ object ERR {
   val TOPIC_SUBTOPIC_EXISTS = "topic-subtopic-exists" -> "topic and subtopic already exists"
   val ROUTE_METHOD_TYPE_EXISTS = "route-method-type-exists" -> "route, method, and type combination already exists"
   val FIELDS_HAVE_BLANK = "fields-have-blank" -> "no fields should have empty string"
+
+  val ENDPOINT_MISSING = "endpoint-missing" -> "endpoint was not found"
 }

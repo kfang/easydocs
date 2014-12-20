@@ -1,8 +1,14 @@
 package easydocs.models
 
+import java.util.UUID
+
 import com.sksamuel.elastic4s.ElasticDsl._
-import com.sksamuel.elastic4s.{StandardAnalyzer, KeywordAnalyzer}
+import com.sksamuel.elastic4s.{ElasticClient, StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.{MultiFieldType, StringType}
+import easydocs.ERR
+import spray.json.DefaultJsonProtocol._
+import spray.json._
+import scala.concurrent.{ExecutionContext, Future}
 
 case class ESEndpoint(
   id: String,
@@ -47,6 +53,16 @@ object ESEndpoint {
     "authentication".typed(StringType).analyzer(KeywordAnalyzer),
     "parameters".typed(StringType).analyzer(StandardAnalyzer)
   )
+
+  implicit val esEndpointJS = jsonFormat9(ESEndpoint.apply)
+
+  def fromId(id: UUID)(implicit ec: ExecutionContext, client: ElasticClient): Future[ESEndpoint] = {
+    client.execute(get.id(id.toString).from(ALIAS_TYPE)).map(getRes => {
+      getRes.getSourceAsString.parseJson.convertTo[ESEndpoint]
+    }).recover({
+      case e: Exception => throw ERR.notFound(ERR.ENDPOINT_MISSING)
+    })
+  }
 
 }
 
