@@ -8,7 +8,6 @@ import org.elasticsearch.common.settings.ImmutableSettings
 trait Services {
 
   implicit val system = ActorSystem("easydoc")
-  import system.dispatcher
 
   private val ES_HOST = "localhost"
 
@@ -18,7 +17,5 @@ trait Services {
   }
 
   val endpointService = system.actorOf(EndpointService.props(elasticClient), "endpoint-service")
-
-  implicit val esClient = new Client()
 
 }
