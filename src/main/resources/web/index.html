@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <a class="navbar-left navbar-brand">EasyDocs</a>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a onClick="renderCreate()">Add Endpoint</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+           <div class="row">
+               <div id="navigation" class="col-md-3" style="border-right: 1px solid #ddd"></div>
+               <div id="content" class="col-md-9"></div>
+           </div>
+        </div>
+
+
+        <div id="templates" style="display: none;">
+            <div id="create-form">
+               <h1 id="form-title">Create Endpoint:</h1>
+               <form role="form">
+                   <!-- Topic -->
+                   <div class="form-group">
+                       <label for="topic-input">Topic:</label>
+                       <input name="topic" type="text" class="form-control" id="topic-input" placeholder="Topic" required="">
+                   </div>
+
+                   <!-- SubTopic -->
+                   <div class="form-group">
+                       <label for="subTopic-input">SubTopic:</label>
+                       <input name="subTopic" type="text" class="form-control" id="subTopic-input" placeholder="SubTopic" required="">
+                   </div>
+
+                   <!-- Route -->
+                   <div class="form-group">
+                       <label for="route-input">Route:</label>
+                       <input name="route" type="text" class="form-control" id="route-input" placeholder="/example/route" required="">
+                   </div>
+
+                   <!-- Method -->
+                   <div class="form-group">
+                       <label for="method-input">Method:</label>
+                       <select name="method" class="form-control" id="method-input">
+                           <option>GET</option>
+                           <option>POST</option>
+                           <option>PUT</option>
+                           <option>DELETE</option>
+                       </select>
+                   </div>
+
+                   <!-- Content Type -->
+                   <div class="form-group">
+                       <label for="cType-input">Content Type:</label>
+                       <input name="contentType" type="text" class="form-control" id="cType-input" placeholder="application/json" required="">
+                   </div>
+
+                   <!-- Authentication -->
+                   <div class="form-group">
+                       <label for="auth-input">Authentication:</label>
+                       <select name="authentication" class="form-control" id="auth-input">
+                           <option>none</option>
+                           <option>optional</option>
+                           <option>required</option>
+                       </select>
+                   </div>
+
+                   <!-- Parameters -->
+                   <div class="form-group">
+                       <label for="param-input">Parameters/Request Body:</label>
+                       <textarea name="parameters" id="param-input" class="form-control" rows="5"></textarea>
+                   </div>
+
+                   <!-- Notes -->
+                   <div class="form-group">
+                       <label for="notes-input">Notes:</label>
+                       <textarea name="notes" id="notes-input" class="form-control" rows="5"></textarea>
+                   </div>
+
+                   <button type="submit" class="btn btn-primary" id="form-submit">Submit</button>
+
+               </form>
+           </div>
+            <div id="read-endpoint">
+                <table class="table table-striped">
+                    <h2 id="topic"></h2>
+                    <h3 id="subTopic"></h3>
+                    <tr><th>Method</th><th>Route</th><th>ContentType</th><th>Authentication</th></tr>
+                    <tr><td id="method"></td><td id="route"></td><td id="contentType"></td><td id="authentication"></td></tr>
+                    <tr><th colspan="4">Parameters:</th></tr>
+                    <tr><td colspan="4" id="parameters"></td></tr>
+                    <tr><th colspan="4">Notes</th></tr>
+                    <tr><td colspan="4" id="notes"></td></tr>
+                </table>
+            </div>
+            <div id="delete-confirm" class="jumbotron">
+                <h1>Are you sure you wanna delete this endpoint?</h1>
+                <p>You are about to do something unrecoverable to what could have been a tantamount amount of work.</p>
+                <button id="yes" class="btn btn-danger">YES, KILL IT!</button>
+                <button id="no" class="btn btn-primary">nvm, i'll do something else</button>
+            </div>
+        </div>
+
+        <script src="/js/create.js"></script>
+        <script src="/js/read.js"></script>
+        <script src="/js/update.js"></script>
+        <script src="/js/delete.js"></script>
+        <script src="/js/navigation.js"></script>
+        <script>
+            $().ready(function(){
+                renderNav();
+                renderCreate();
+            })
+        </script>
+
+    </body>
+</html>

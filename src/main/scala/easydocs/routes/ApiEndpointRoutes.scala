@@ -4,6 +4,7 @@ import easydocs.models.ESEndpoint
 import easydocs.routes.requests.{EndpointDeleteRequest, EndpointUpdateRequest, EndpointCreateRequest}
 import easydocs.routes.requests.EndpointUpdateRequest.EndpointUpdate
 import easydocs.Services
+import easydocs.routes.responses.EndpointListResponse
 import spray.routing.{Route, Directives}
 
 
@@ -11,6 +12,15 @@ trait ApiEndpointRoutes {
   this: Services with Directives with JsonSupport =>
 
   import system.dispatcher
+
+  private val readEndpointRoute: Route = (
+    get &
+    path(JavaUUID)
+  ){(id) => {
+    ESEndpoint
+      .fromId(id)
+      .map(endpoint => EndpointListResponse(List(endpoint)))
+  }}
 
   private val createEndpointRoute: Route = (
     post &
@@ -47,6 +57,7 @@ trait ApiEndpointRoutes {
   }}
 
   val apiEndpointRoutes: Route = pathPrefix("endpoints") {
+    readEndpointRoute ~
     createEndpointRoute ~
     updateEndpointRoute ~
     deleteEndpointRoute
