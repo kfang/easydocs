@@ -4,6 +4,7 @@ function renderRead(id){
         type: "GET",
         url: "/api/endpoints/" + id,
     }).success(function(res){
+        var converter = new Showdown.converter();
         var template = $('#templates #read-endpoint').html()
         $('#content').html(template)
 
@@ -21,11 +22,13 @@ function renderRead(id){
         }
 
         if(endpoint.parameters){
-            $('#content #parameters').append(endpoint.parameters);
+            var rendered = converter.makeHtml(endpoint.parameters);
+            $('#content #parameters').append($(rendered));
         }
 
         if(endpoint.notes){
-            $('#content #notes').append(endpoint.notes);
+            var rendered = converter.makeHtml(endpoint.notes);
+            $('#content #notes').append($(rendered));
         }
 
         //generate the update button
