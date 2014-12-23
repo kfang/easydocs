@@ -9,15 +9,9 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <a class="navbar-left navbar-brand">EasyDocs</a>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a onClick="renderCreate()">Add Endpoint</a></li>
-                </ul>
-            </div>
+        <nav id="top" class="navbar navbar-default">
         </nav>
+
         <div class="container">
            <div class="row">
                <div id="navigation" class="col-md-3" style="border-right: 1px solid #ddd"></div>
@@ -27,6 +21,37 @@
 
 
         <div id="templates" style="display: none;">
+
+            <!-- Top Navigation Bar -->
+            <div id="top-navbar">
+                <div id="top-container" class="container">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span id="site-name" style="font-size: 2em">EasyDocs</span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul id="site-dropdown" class="dropdown-menu" role="menu">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div id="create-site-form">
+                <h1>Create Site:</h1>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="name-input">Name:</label>
+                        <input name="name" type="text" class="form-control" id="name-input" required="">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="create-site-submit">Submit</button>
+                </form>
+            </div>
+
+
             <div id="create-form">
                <h1 id="form-title">Create Endpoint:</h1>
                <form role="form">
@@ -111,6 +136,7 @@
             </div>
         </div>
 
+        <script src="/js/extra.js"></script>
         <script src="/js/create.js"></script>
         <script src="/js/read.js"></script>
         <script src="/js/update.js"></script>
@@ -118,8 +144,17 @@
         <script src="/js/navigation.js"></script>
         <script>
             $().ready(function(){
+                var qParams = $.getQueryParameters()
+
                 renderNav();
-                renderCreate();
+                renderTopNav(qParams['site']);
+
+                if(qParams['site']){
+                    renderCreateEndpoint(qParams['site']);
+                } else {
+                    renderCreateSite();
+                }
+
             })
         </script>
 

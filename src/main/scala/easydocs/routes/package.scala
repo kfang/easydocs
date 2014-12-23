@@ -7,7 +7,7 @@ import spray.httpx.marshalling.Marshaller
 import spray.json.DefaultJsonProtocol
 import spray.routing.Route
 import spray.routing.directives.FutureDirectives
-
+import scala.language.implicitConversions
 import scala.concurrent.{Future, ExecutionContext}
 import scala.util.{Failure, Success}
 import scalatags.Text.TypedTag

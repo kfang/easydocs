@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.event.Logging
 import com.sksamuel.elastic4s.ElasticClient
 import com.typesafe.config.ConfigFactory
-import easydocs.services.EndpointService
+import easydocs.services.IndexService
 import org.elasticsearch.common.settings.ImmutableSettings
 
 trait Services {
@@ -22,6 +22,6 @@ trait Services {
   }
   systemLog.info("booted ElasticClient")
 
-  val endpointService = system.actorOf(EndpointService.props(elasticClient), "endpoint-service")
+  val endpointService = system.actorOf(IndexService.props(elasticClient), "endpoint-service")
 
 }

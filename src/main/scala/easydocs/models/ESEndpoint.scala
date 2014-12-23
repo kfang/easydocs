@@ -12,6 +12,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class ESEndpoint(
   id: String,
+  site: String,
 
   topic: String,
   subTopic: String,
@@ -27,14 +28,15 @@ case class ESEndpoint(
 
 object ESEndpoint {
 
-  val ALIAS = "easydocs"
-  val INDEX = "easydocs-v1"
+  val ALIAS = "easydocs-endpoints"
+  val INDEX = "easydocs-endpoints-v1"
   val TYPE  = "endpoint"
 
   val ALIAS_TYPE = ALIAS -> TYPE
 
   val MAPPING = TYPE.as(
     "id".typed(StringType).analyzer(KeywordAnalyzer),
+    "site".typed(StringType).analyzer(KeywordAnalyzer),
 
     "topic".typed(MultiFieldType).as(
       "topic".typed(StringType).analyzer(KeywordAnalyzer),
@@ -54,7 +56,7 @@ object ESEndpoint {
     "parameters".typed(StringType).analyzer(StandardAnalyzer)
   )
 
-  implicit val esEndpointJS = jsonFormat9(ESEndpoint.apply)
+  implicit val esEndpointJS = jsonFormat10(ESEndpoint.apply)
 
   def fromId(id: UUID)(implicit ec: ExecutionContext, client: ElasticClient): Future[ESEndpoint] = {
     client.execute(get.id(id.toString).from(ALIAS_TYPE)).map(getRes => {

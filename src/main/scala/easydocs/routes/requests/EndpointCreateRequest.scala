@@ -6,13 +6,15 @@ import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.source.ObjectSource
 import easydocs.ERR
-import easydocs.models.ESEndpoint
+import easydocs.models.{ESSite, ESEndpoint}
 import easydocs.routes.responses.BooleanResponse
 import spray.json.DefaultJsonProtocol._
 
 import scala.concurrent.{Future, ExecutionContext}
 
 case class EndpointCreateRequest(
+  site: String,
+
   topic: String,
   subTopic: String,
   notes: Option[String],
@@ -27,9 +29,14 @@ case class EndpointCreateRequest(
 
 object EndpointCreateRequest {
 
-  implicit val endpointCreateJS = jsonFormat8(EndpointCreateRequest.apply)
+  implicit val endpointCreateJS = jsonFormat9(EndpointCreateRequest.apply)
 
   implicit class EndpointCreate(request: EndpointCreateRequest)(implicit ec: ExecutionContext, client: ElasticClient){
+
+    private def checkSite: Future[Option[(String, String)]] = {
+      ESSite.fromId(UUID.fromString(request.site)).map(_ => None)
+        .recover({case e: Exception => Some(ERR.SITE_MISSING)})
+    }
 
     private def checkTopicAndSubTopic: Future[Option[(String, String)]] = {
       client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
@@ -66,12 +73,14 @@ object EndpointCreateRequest {
       topicAndSubTopic <- checkTopicAndSubTopic
       routeMethodType  <- checkRouteMethodType
       forBlanks        <- checkForBlanks
+      site             <- checkSite
     } yield {
       List(topicAndSubTopic, routeMethodType, forBlanks).flatten
     }).map({
       case Nil =>
         ESEndpoint(
           id = UUID.randomUUID().toString,
+          site = request.site,
           topic = request.topic,
           subTopic = request.subTopic,
           notes = request.notes,

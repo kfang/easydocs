@@ -46,4 +46,7 @@ object ERR {
   val FIELDS_HAVE_BLANK = "fields-have-blank" -> "no fields should have empty string"
 
   val ENDPOINT_MISSING = "endpoint-missing" -> "endpoint was not found"
+  val SITE_REGEX_MISMATCH = "site-regex-mismatch" -> "improper characters found, only alphanumeric and dashes"
+  val SITE_EXISTS = "site-exists" -> "site name already exists"
+  val SITE_MISSING = "site-missing" -> "site was not found"
 }
