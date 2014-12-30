@@ -71,10 +71,10 @@ function renderTopNav(site){
 
 }
 
-function renderNav(){
+function renderNav(site){
     $.ajax({
         type: "GET",
-        url: "/api/topics",
+        url: "/api/sites/" + site + "/topics",
     }).success(function(res){
         console.log("rendering nav");
 

@@ -14,12 +14,16 @@ trait Services {
   val systemLog = Logging(system.eventStream, "main-system-log")
   systemLog.info("booted ActorSystem")
 
+  private val ES_USE_REMOTE = false
   private val ES_HOST = "localhost"
 
-  implicit val elasticClient = {
+  implicit val elasticClient = if (ES_USE_REMOTE) {
     val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
     ElasticClient.remote(elasticSearchSettings, (ES_HOST, 9300))
+  } else {
+    ElasticClient.local
   }
+
   systemLog.info("booted ElasticClient")
 
   val endpointService = system.actorOf(IndexService.props(elasticClient), "endpoint-service")

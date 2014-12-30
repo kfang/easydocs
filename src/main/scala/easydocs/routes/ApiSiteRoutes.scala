@@ -3,7 +3,7 @@ package easydocs.routes
 import easydocs.Services
 import easydocs.models.ESSite
 import easydocs.routes.requests.SiteCreateRequest
-import easydocs.routes.responses.{SiteReadResponse, SiteListResponse}
+import easydocs.routes.responses.{TopicListResponse, SiteReadResponse, SiteListResponse}
 import spray.routing.{Route, Directives}
 
 import scala.concurrent.Future
@@ -41,10 +41,22 @@ trait ApiSiteRoutes {
     Future.successful(SiteListResponse(elasticClient))
   }
 
+  private val listSiteTopicsRoute: Route = (
+    get &
+    path(JavaUUID / "topics")
+  ){siteId => {
+
+    ESSite.fromId(siteId).map(site => {
+      TopicListResponse(site.id, elasticClient)
+    })
+
+  }}
+
   val apiSiteRoutes: Route = pathPrefix("sites"){
     createSiteRoute ~
     readSiteRoute ~
-    listSitesRoute
+    listSitesRoute ~
+    listSiteTopicsRoute
   }
 
 }

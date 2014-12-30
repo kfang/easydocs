@@ -11,11 +11,12 @@ import scala.concurrent.ExecutionContext
 import scala.collection.JavaConversions._
 
 case class TopicListResponse(
+                            site: String,
   client: ElasticClient
 ) extends Response {
 
   override def finish(implicit ec: ExecutionContext): Route = {
-    client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(matchall).limit(0).aggs(
+    client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(term("site", site)).limit(0).aggs(
       agg.terms("topics").field("topic").order(Order.term(true)).aggs(
         agg.terms("subTopics").field("subTopic").order(Order.term(true)).aggs(
           agg.terms("ids").field("id")

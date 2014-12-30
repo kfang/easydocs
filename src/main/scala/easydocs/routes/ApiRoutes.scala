@@ -6,7 +6,6 @@ import spray.routing.Directives
 trait ApiRoutes
   extends JsonSupport
   with ApiEndpointRoutes
-  with ApiTopicRoutes
   with ApiSiteRoutes
 {
   this: Services with Directives =>
@@ -14,7 +13,6 @@ trait ApiRoutes
 
   val apiRoutes = pathPrefix("api"){
     apiEndpointRoutes ~
-    apiSiteRoutes ~
-    apiTopicRoutes
+    apiSiteRoutes
   }
 }

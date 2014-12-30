@@ -146,7 +146,7 @@
             $().ready(function(){
                 var qParams = $.getQueryParameters()
 
-                renderNav();
+                renderNav(qParams['site']);
                 renderTopNav(qParams['site']);
 
                 if(qParams['site']){
