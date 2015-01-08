@@ -31,8 +31,10 @@ function renderCreateEndpoint(site){
             data: JSON.stringify(data),
             contentType: "application/json"
         }).success(function(msg){
+            console.log(msg);
             setTimeout(function(){
-                renderNav()
+                renderNav(site);
+                renderRead(msg.endpoints[0].id);
             }, 1000);
         }).error(function(msg){
             alert(msg.responseText);

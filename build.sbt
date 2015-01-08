@@ -30,7 +30,7 @@ libraryDependencies ++= Seq(
   "com.github.rjeschke" % "txtmark" % "0.11"
 )
 
-Revolver.settings
+Revolver.settings.settings
 
 dockerSettings
 
@@ -61,7 +61,7 @@ dockerfile in docker := {
 imageName in docker := {
   ImageName(
     namespace = Some("devbase:5000"),
-    repository = "easydocs",
+    repository = "easydocs-v2",
     tag = sys.env.get("BUILD_NUMBER"))
 }
 

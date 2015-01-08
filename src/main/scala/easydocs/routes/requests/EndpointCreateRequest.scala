@@ -7,7 +7,7 @@ import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.source.ObjectSource
 import easydocs.ERR
 import easydocs.models.{ESSite, ESEndpoint}
-import easydocs.routes.responses.BooleanResponse
+import easydocs.routes.responses.{EndpointListResponse, BooleanResponse}
 import spray.json.DefaultJsonProtocol._
 
 import scala.concurrent.{Future, ExecutionContext}
@@ -98,11 +98,11 @@ object EndpointCreateRequest {
       client.execute(cmd).map(_.isCreated)
     }
 
-    def getResponse: Future[BooleanResponse] = for {
+    def getResponse: Future[EndpointListResponse] = for {
       esEndpoint <- generateEndpoint
       saveResult <- saveEndpoint(esEndpoint)
     } yield {
-      BooleanResponse(saveResult)
+      EndpointListResponse(List(esEndpoint))
     }
   }
 }
