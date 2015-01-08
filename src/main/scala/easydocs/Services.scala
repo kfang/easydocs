@@ -14,7 +14,7 @@ trait Services {
   val systemLog = Logging(system.eventStream, "main-system-log")
   systemLog.info("booted ActorSystem")
 
-  private val ES_USE_REMOTE = false
+  private val ES_USE_REMOTE = true
   private val ES_HOST = "elastic"
 
   implicit val elasticClient = if (ES_USE_REMOTE) {
