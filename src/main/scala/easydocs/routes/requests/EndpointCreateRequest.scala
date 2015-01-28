@@ -40,6 +40,7 @@ object EndpointCreateRequest {
 
     private def checkTopicAndSubTopic: Future[Option[(String, String)]] = {
       client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
+        term("site", request.site),
         term("topic", request.topic),
         term("subTopic", request.subTopic)
       ))).map(_.getCount > 0).map({
@@ -50,6 +51,7 @@ object EndpointCreateRequest {
 
     private def checkRouteMethodType: Future[Option[(String, String)]] = {
       client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
+        term("site", request.site),
         term("route", request.route),
         term("method", request.method),
         term("contentType", request.contentType)
@@ -61,6 +63,7 @@ object EndpointCreateRequest {
 
     private def checkForBlanks: Future[Option[(String, String)]] = Future.successful {
       val noBlanks =
+        request.site != "" &&
         request.topic != "" &&
         request.subTopic != "" &&
         request.route != "" &&
