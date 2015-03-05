@@ -4,8 +4,10 @@
 - **POST** /api/sites
     - ex: {"name":"my-site-name"}
 - **GET** /api/sites/:id
+
 ###Site Topics
 - **GET /api/sites/:id/topics
+
 ###Endpoint
 - **GET** /api/endpoints/:id
 - **POST** /api/endpoints
