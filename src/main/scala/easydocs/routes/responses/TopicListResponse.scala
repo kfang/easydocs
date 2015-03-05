@@ -21,7 +21,7 @@ case class TopicListResponse(
         agg.terms("subTopics").field("subTopic").order(Order.term(true)).aggs(
           agg.terms("ids").field("id")
         )
-      )
+      ).size(1000)
     )).map(searchResponse => {
 
       val topicSubtopicIdTuples = searchResponse.getAggregations.get[Terms]("topics").getBuckets.toList.map(topicBucket => {
