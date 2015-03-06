@@ -46,7 +46,7 @@ dockerfile in docker := {
     .mkString(":") + ":" + jarTarget
   new Dockerfile {
     // Base image
-    from("devbase:5000/java1.8")
+    from("dockerfile/java:oracle-java8")
     // Add all files on the classpath
     classpath.files.foreach { file =>
       add(file, "/app/")
@@ -60,9 +60,9 @@ dockerfile in docker := {
 
 imageName in docker := {
   ImageName(
-    namespace = Some("devbase:5000"),
-    repository = "easydocs-v2",
-    tag = sys.env.get("BUILD_NUMBER"))
+    namespace = Some("docker.zipfworks.com"),
+    repository = "easydocs-v2"
+  )
 }
 
 

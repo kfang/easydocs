@@ -20,7 +20,7 @@ case class TopicListResponse(
       agg.terms("topics").field("topic").order(Order.term(true)).aggs(
         agg.terms("subTopics").field("subTopic").order(Order.term(true)).aggs(
           agg.terms("ids").field("id")
-        )
+        ).size(1000)
       ).size(1000)
     )).map(searchResponse => {
 
