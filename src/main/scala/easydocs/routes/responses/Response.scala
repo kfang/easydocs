@@ -20,6 +20,11 @@ trait Response {
     case Failure(e)  => ERR(e).complete
   }
 
+  implicit def futureString(s: Future[String])(implicit ec: ExecutionContext): Route = onComplete(s){
+    case Success(str) => complete(str)
+    case Failure(e) => ERR(e).complete
+  }
+
   def finish(implicit ec: ExecutionContext): Route
 
 }
