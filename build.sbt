@@ -42,8 +42,7 @@ dockerfile in docker := {
   val mainclass = mainClass.in(Compile, packageBin).value.getOrElse(sys.error("Expected exactly one main class"))
   val jarTarget = s"/app/${jarFile.getName}"
   // Make a colon separated classpath with the JAR file
-  val classpathString = classpath.files.map("/app/" + _.getName)
-    .mkString(":") + ":" + jarTarget
+  val cp = s"""$jarTarget:/app/*"""
   new Dockerfile {
     // Base image
     from("dockerfile/java:oracle-java8")
@@ -53,8 +52,10 @@ dockerfile in docker := {
     }
     // Add the JAR file
     add(jarFile, jarTarget)
+    //expose the main api port
+    expose(8080)
     // On launch run Java with the classpath and the main class
-    entryPoint("java", "-cp", classpathString, mainclass)
+    entryPointShell("java", "-cp", cp, "${JAVA_OPTS}", mainclass)
   }
 }
 

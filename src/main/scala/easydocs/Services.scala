@@ -15,7 +15,7 @@ trait Services {
   systemLog.info("booted ActorSystem")
 
   private val ES_USE_REMOTE = true
-  private val ES_HOST = "devnode1"
+  private val ES_HOST = "elastic"
 
   implicit val elasticClient = if (ES_USE_REMOTE) {
     val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
