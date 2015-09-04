@@ -1,5 +1,5 @@
 package com.github.kfang.easydocs.models
 
-case class EZEndpointsListResponse(
+case class EZSitesListResponse(
   sites: Seq[EZSite]
 )

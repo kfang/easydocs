@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Easydocs</title>
-    <!-- Include Bootstrap CSS/JS -->
+    <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- Include Scala.js compiled code -->
+    <!-- Include JavaScript Dependencies -->
     <script type="text/javascript" src="./target/scala-2.11/shared-jsdeps.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body class="container">
+    <!-- Include Scala.js compiled code -->
     <script type="text/javascript" src="./target/scala-2.11/shared-fastopt.js"></script>
     <!-- Run tutorial.webapp.TutorialApp -->
-    <script type="text/javascript"> com.github.kfang.easydocs.Main().main(); </script>
-
-</head>
-<body><div id="content" class="container"></div></body>
+    <script type="text/javascript"> com.github.kfang.easydocs.js.Main().main(); </script>
+</body>
 </html>
