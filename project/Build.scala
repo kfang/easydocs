@@ -1,3 +1,5 @@
+import org.scalajs.sbtplugin.ScalaJSPlugin
+import ScalaJSPlugin.autoImport._
 import sbt._
 import Keys._
 import spray.revolver.RevolverPlugin._
@@ -9,7 +11,7 @@ object Build extends Build {
     shellPrompt := { s => Project.extract(s).currentProject.id + " > " }
   }
 
-  lazy val commonDependencies = Seq(
+  lazy val jvmDependencies = Seq(
     "io.spray"               %%  "spray-can"              % "1.3.2",
     "io.spray"               %%  "spray-routing"          % "1.3.2",
     "io.spray"               %%  "spray-json"             % "1.3.1",
@@ -26,12 +28,21 @@ object Build extends Build {
     organization := "com.github.kfang",
     version := "0.0.2-SNAPSHOT",
     scalaVersion := "2.11.7",
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
-    libraryDependencies ++= commonDependencies
+    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
   )
 
   lazy val jvm = (project in file("jvm"))
     .settings(commonSettings: _*)
     .settings(Revolver.settings: _*)
+    .settings(libraryDependencies ++= jvmDependencies)
+
+  lazy val js = (project in file("js"))
+    .enablePlugins(ScalaJSPlugin)
+    .settings(commonSettings: _*)
+    .settings({
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "0.8.0"
+    )
+  })
 
 }

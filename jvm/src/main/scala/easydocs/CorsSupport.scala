@@ -2,7 +2,7 @@ package easydocs
 
 import spray.http.HttpHeaders.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Methods`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Origin`}
 import spray.http._
-import spray.routing.{Directives, Route}
+import spray.routing.{Directive0, Directives, Route}
 
 trait CorsSupport {
   this: Directives =>
@@ -42,6 +42,5 @@ trait CorsSupport {
       case None               => route
     }
   }
-
 
 }
