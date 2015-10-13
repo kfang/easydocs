@@ -9,22 +9,16 @@ import org.elasticsearch.common.settings.ImmutableSettings
 
 trait Services {
 
-  val systemConfig = ConfigFactory.load()
-  implicit val system = ActorSystem("easydoc", systemConfig)
-  val systemLog = Logging(system.eventStream, "main-system-log")
-  systemLog.info("booted ActorSystem")
-
-  private val ES_USE_REMOTE = true
-  private val ES_HOST = "elastic"
-
-  implicit val elasticClient = if (ES_USE_REMOTE) {
-    val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
-    ElasticClient.remote(elasticSearchSettings, (ES_HOST, 9300))
-  } else {
-    ElasticClient.local
+  implicit val Config = AppConfig()
+  implicit val system = ActorSystem("easydoc", Config.CONFIG)
+  implicit val elasticClient = {
+    if (Config.IS_PRODUCTION) {
+      val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()
+      ElasticClient.remote(elasticSearchSettings, (Config.ELASTIC_REMOTE_HOST, Config.ELASTIC_REMOTE_PORT))
+    } else {
+      ElasticClient.local
+    }
   }
-
-  systemLog.info("booted ElasticClient")
 
   val endpointService = system.actorOf(IndexService.props(elasticClient), "endpoint-service")
 
