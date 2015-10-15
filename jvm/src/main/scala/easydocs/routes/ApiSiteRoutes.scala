@@ -1,17 +1,18 @@
 package easydocs.routes
 
-import easydocs.Services
+import com.sksamuel.elastic4s.ElasticClient
+import easydocs.AppPackage
 import easydocs.models.ESSite
 import easydocs.routes.requests.SiteCreateRequest
 import easydocs.routes.responses.{TopicListResponse, SiteReadResponse, SiteListResponse}
-import spray.routing.{Route, Directives}
+import spray.routing.Route
 
 import scala.concurrent.Future
 
-trait ApiSiteRoutes {
-  this: Services with Directives with JsonSupport =>
+class ApiSiteRoutes(implicit App: AppPackage) extends ExtendedDirectives(App){
 
-  import system.dispatcher
+  import App.system.dispatcher
+  implicit val elasticClient: ElasticClient = App.services.elasticClient
 
   private val createSiteRoute: Route = (
     post &
@@ -52,7 +53,7 @@ trait ApiSiteRoutes {
 
   }}
 
-  val apiSiteRoutes: Route = pathPrefix("sites"){
+  val routes: Route = pathPrefix("sites"){
     createSiteRoute ~
     readSiteRoute ~
     listSitesRoute ~

@@ -1,18 +1,17 @@
 package easydocs.routes
 
-import easydocs.Services
-import easydocs.CorsSupport
+import easydocs.{AppPackage, Services, CorsSupport}
 import spray.routing.Directives
+import CorsSupport._
 
-trait ApiRoutes
+class ApiRoutes(implicit App: AppPackage)
   extends JsonSupport
   with ApiEndpointRoutes
-  with ApiSiteRoutes
   with ExportRoutes
-  with CorsSupport
 {
   this: Services with Directives =>
 
+  private val apiSiteRoutes = new ApiSiteRoutes().routes
 
   val apiRoutes = cors(pathPrefix("api"){
     apiEndpointRoutes ~

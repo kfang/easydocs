@@ -2,10 +2,10 @@ package easydocs
 
 import spray.http.HttpHeaders.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Methods`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Origin`}
 import spray.http._
-import spray.routing.{Directive0, Directives, Route}
+import spray.routing.{Directives, Route}
+import Directives._
 
-trait CorsSupport {
-  this: Directives =>
+object CorsSupport {
 
   private val allowedHeaders = Seq[String](
     "Accept",
