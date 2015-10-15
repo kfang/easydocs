@@ -5,7 +5,7 @@ import com.sksamuel.elastic4s.ElasticClient
 import easydocs.services.IndexService
 import org.elasticsearch.common.settings.ImmutableSettings
 
-case class AppServices()(implicit system: ActorSystem, config: AppConfig) {
+case class AppServices(system: ActorSystem, config: AppConfig) {
 
   val elasticClient = {
     if (config.IS_PRODUCTION) {

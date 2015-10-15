@@ -9,9 +9,10 @@ object Main
   with SimpleRoutingApp
 {
 
-  implicit val Config = AppConfig()
-  implicit val system = ActorSystem("easydocs", Config.CONFIG)
-  implicit val services = AppServices()
+  private val Config = AppConfig()
+  private implicit val system = ActorSystem("easydocs", Config.CONFIG)
+  private val services = AppServices(system, Config)
+  private val appPackage = AppPackage(system, Config, services)
 
   import system.dispatcher
 
