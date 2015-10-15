@@ -1,18 +1,18 @@
 package easydocs.routes
 
-import easydocs.Services
+import com.sksamuel.elastic4s.ElasticClient
+import easydocs.AppPackage
 import easydocs.routes.responses.{ExportEndpointsResponse, ExportSitesResponse}
-import spray.routing.Directives
 
-trait ExportRoutes {
-  this: Services with Directives with JsonSupport =>
-  import system.dispatcher
+class ExportRoutes(implicit App: AppPackage) extends ExtendedDirectives(App){
+  import App.system.dispatcher
+  implicit private val elasticClient: ElasticClient = App.services.elasticClient
   
   
   private val exportSites = (get & path("sites")){ ExportSitesResponse(elasticClient) }
   private val exportEndpoints = (get & path("endpoints")){ ExportEndpointsResponse(elasticClient) }
 
-  val exportRoutes = pathPrefix("export"){
+  val routes= pathPrefix("export"){
     exportSites ~
     exportEndpoints
   }

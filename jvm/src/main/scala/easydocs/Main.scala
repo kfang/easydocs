@@ -1,6 +1,7 @@
 package easydocs
 
 import akka.actor.ActorSystem
+import easydocs.routes.ApiRoutes
 import spray.routing.SimpleRoutingApp
 import scala.util.{Failure, Success}
 
@@ -16,17 +17,15 @@ object Main extends App with SimpleRoutingApp {
   private val services = AppServices(system, Config)
 
   /** Package everything together to pass to the routes **/
-  private val appPackage = AppPackage(system, Config, services)
+  private implicit val appPackage = AppPackage(system, Config, services)
 
   //ExecutionContext, needed to start SimpleRoutingApp
   import system.dispatcher
 
-
-  //TODO: migrate the routes into a class-based system rather than traits
   //TODO: migrate to using akka-http instead of spray.io (note, it'll need a materializer)
   //start spray-can HTTP server
   startServer("0.0.0.0", port = 8080)({
-//    apiRoutes ~  //=> ----  /api
+    new ApiRoutes().routes ~  //=> ----  /api
     path(RestPath){file => {getFromResource(file.toString())}}
   }).onComplete({
     case Success(b) => println(s"Successfully bound to ${b.localAddress}")

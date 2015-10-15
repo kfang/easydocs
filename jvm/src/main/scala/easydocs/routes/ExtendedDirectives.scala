@@ -1,6 +1,7 @@
 package easydocs.routes
 
 import easydocs.AppPackage
+import easydocs.routes.responses.Response
 import spray.httpx.SprayJsonSupport
 import spray.json.JsObject
 import spray.routing.{Route, Directives}
@@ -23,5 +24,7 @@ abstract class ExtendedDirectives(App: AppPackage) extends Directives with Spray
     case Success(any) => complete(s"unknown response type: ${any.toString}")
     case Failure(t) => complete(t.getMessage)
   })
+
+  implicit def completeResponse(r: Response): Route = r.finish
 
 }
