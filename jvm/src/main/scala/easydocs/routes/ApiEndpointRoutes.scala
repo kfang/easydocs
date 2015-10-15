@@ -1,17 +1,18 @@
 package easydocs.routes
 
+import com.sksamuel.elastic4s.ElasticClient
 import easydocs.models.ESEndpoint
 import easydocs.routes.requests.{EndpointDeleteRequest, EndpointUpdateRequest, EndpointCreateRequest}
 import easydocs.routes.requests.EndpointUpdateRequest.EndpointUpdate
-import easydocs.Services
+import easydocs.AppPackage
 import easydocs.routes.responses.EndpointListResponse
-import spray.routing.{Route, Directives}
+import spray.routing.Route
 
 
-trait ApiEndpointRoutes {
-  this: Services with Directives with JsonSupport =>
+class ApiEndpointRoutes(implicit App: AppPackage) extends ExtendedDirectives(App) {
 
-  import system.dispatcher
+  import App.system.dispatcher
+  implicit val elasticClient: ElasticClient = App.services.elasticClient
 
   private val readEndpointRoute: Route = (
     get &
@@ -56,7 +57,7 @@ trait ApiEndpointRoutes {
 
   }}
 
-  val apiEndpointRoutes: Route = pathPrefix("endpoints") {
+  val routes: Route = pathPrefix("endpoints") {
     readEndpointRoute ~
     createEndpointRoute ~
     updateEndpointRoute ~

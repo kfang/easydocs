@@ -7,6 +7,7 @@ import com.typesafe.config.ConfigFactory
 import easydocs.services.IndexService
 import org.elasticsearch.common.settings.ImmutableSettings
 
+@deprecated("needs to go away, not really great for testing")
 trait Services {
 
   implicit val Config = AppConfig()

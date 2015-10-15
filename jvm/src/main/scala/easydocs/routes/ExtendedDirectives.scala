@@ -14,6 +14,7 @@ import spray.json.DefaultJsonProtocol._
 abstract class ExtendedDirectives(App: AppPackage) extends Directives with SprayJsonSupport {
 
   import App.system.dispatcher
+  //TODO: we should compact print json responses (look in SprayJsonSupport)
 
   //TODO: finish filling out possible returns
   implicit def completeF(f: Future[Any]): Route = onComplete(f)({
