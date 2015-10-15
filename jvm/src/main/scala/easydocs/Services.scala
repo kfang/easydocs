@@ -11,6 +11,7 @@ trait Services {
 
   implicit val Config = AppConfig()
   implicit val system = ActorSystem("easydoc", Config.CONFIG)
+
   implicit val elasticClient = {
     if (Config.IS_PRODUCTION) {
       val elasticSearchSettings = ImmutableSettings.settingsBuilder().put("cluster.name", "zc0").build()

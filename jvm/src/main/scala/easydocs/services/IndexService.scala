@@ -8,6 +8,9 @@ import easydocs.services.IndexService.{TriggerSiteIndexDelete, TriggerSiteIndexC
 import scala.concurrent.Future
 
 object IndexService {
+
+  val NAME = "index-service"
+
   def props(client: ElasticClient): Props = Props(classOf[IndexService], client)
 
   case object TriggerEndpointIndexCreate
