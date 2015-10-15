@@ -4,9 +4,9 @@ import java.util.UUID
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.source.ObjectSource
-import easydocs.ERR
 import easydocs.models.ESSite
 import easydocs.routes.responses.SiteCreateResponse
+import easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
 
 import scala.concurrent.{Future, ExecutionContext}

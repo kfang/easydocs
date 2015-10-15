@@ -5,7 +5,7 @@ import java.util.UUID
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.{ElasticClient, StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.{MultiFieldType, StringType}
-import easydocs.ERR
+import easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
 import spray.json._
 import scala.concurrent.{ExecutionContext, Future}

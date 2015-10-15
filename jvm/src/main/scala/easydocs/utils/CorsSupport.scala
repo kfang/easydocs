@@ -1,9 +1,9 @@
-package easydocs
+package easydocs.utils
 
-import spray.http.HttpHeaders.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Methods`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Origin`}
+import spray.http.HttpHeaders.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Methods`, `Access-Control-Allow-Origin`}
 import spray.http._
+import spray.routing.Directives._
 import spray.routing.{Directives, Route}
-import Directives._
 
 object CorsSupport {
 

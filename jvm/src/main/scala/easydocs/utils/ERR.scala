@@ -1,10 +1,10 @@
-package easydocs
+package easydocs.utils
 
-import spray.http.{StatusCodes, StatusCode}
-import spray.routing.directives.RouteDirectives
-import spray.json._
-import DefaultJsonProtocol._
+import spray.http.{StatusCode, StatusCodes}
 import spray.httpx.SprayJsonSupport._
+import spray.json.DefaultJsonProtocol._
+import spray.json._
+import spray.routing.directives.RouteDirectives
 
 case class ERR(code: StatusCode, errors: Map[String, JsValue]) extends Exception {
 

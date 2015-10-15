@@ -1,6 +1,6 @@
 package easydocs.routes.responses
 
-import easydocs.ERR
+import easydocs.utils.ERR
 import spray.json.JsObject
 import spray.routing.Route
 import spray.routing.directives.FutureDirectives._

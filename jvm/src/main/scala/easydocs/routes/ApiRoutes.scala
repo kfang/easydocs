@@ -1,6 +1,7 @@
 package easydocs.routes
 
-import easydocs.{AppPackage, CorsSupport}
+import easydocs.AppPackage
+import easydocs.utils.CorsSupport
 import CorsSupport._
 
 class ApiRoutes(implicit App: AppPackage) extends ExtendedDirectives(App) {

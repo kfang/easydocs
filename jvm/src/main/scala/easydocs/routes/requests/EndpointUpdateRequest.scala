@@ -2,9 +2,9 @@ package easydocs.routes.requests
 
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.source.ObjectSource
-import easydocs.ERR
 import easydocs.models.ESEndpoint
 import easydocs.routes.responses.BooleanResponse
+import easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
 import com.sksamuel.elastic4s.ElasticDsl._
 import scala.concurrent.{Future, ExecutionContext}

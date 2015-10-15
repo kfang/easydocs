@@ -5,7 +5,7 @@ import java.util.UUID
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.{ElasticClient, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.StringType
-import easydocs.ERR
+import easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
 import spray.json._
 
