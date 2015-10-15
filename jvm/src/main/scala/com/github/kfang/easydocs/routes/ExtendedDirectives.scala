@@ -21,6 +21,7 @@ abstract class ExtendedDirectives(App: AppPackage) extends Directives with Spray
   implicit def completeF(f: Future[Any]): Route = onComplete(f)({
     case Success(elem: Elem) => complete(elem)
     case Success(json: JsObject) => complete(json)
+    case Success(r: Response) => r.finish
     case Success(any) => complete(s"unknown response type: ${any.toString}")
     case Failure(t) => complete(t.getMessage)
   })

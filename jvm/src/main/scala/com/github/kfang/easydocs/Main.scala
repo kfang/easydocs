@@ -11,7 +11,7 @@ object Main extends App with SimpleRoutingApp {
   private val Config = AppConfig()
 
   /** Initialize ActorSystem **/
-  private implicit val system = ActorSystem("com/github/kfang/easydocs", Config.CONFIG)
+  private implicit val system = ActorSystem("easydocs", Config.CONFIG)
 
   /** Initialize background services and clients **/
   private val services = AppServices(system, Config)
