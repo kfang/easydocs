@@ -20,10 +20,7 @@ object Build extends Build {
 
   lazy val serverSettings = Seq(
     libraryDependencies ++= Seq(
-      "io.spray"               %%  "spray-can"              % "1.3.2",
-      "io.spray"               %%  "spray-routing"          % "1.3.2",
-      "io.spray"               %%  "spray-json"             % "1.3.1",
-      "com.typesafe.akka"      %% "akka-actor"              % "2.3.7",
+      "com.typesafe.akka"      %% "akka-http-experimental"  % "2.0-M1",
       "com.typesafe.akka"      %% "akka-slf4j"              % "2.3.8",
       "ch.qos.logback"          % "logback-classic"         % "1.0.7",
       "com.sksamuel.elastic4s" %% "elastic4s"               % "1.3.3",
