@@ -1,8 +1,8 @@
 package com.github.kfang.easydocs.routes.responses
 
+import akka.http.scaladsl.server.Route
 import com.github.kfang.easydocs.models.ESSite
 import spray.json._
-import spray.routing.Route
 
 import scala.concurrent.ExecutionContext
 

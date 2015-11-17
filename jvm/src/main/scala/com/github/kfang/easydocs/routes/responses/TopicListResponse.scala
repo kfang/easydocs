@@ -1,12 +1,12 @@
 package com.github.kfang.easydocs.routes.responses
 
+import akka.http.scaladsl.server.Route
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.github.kfang.easydocs.models.ESEndpoint
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Order
 import spray.json.{JsObject, JsArray, JsString}
-import spray.routing.Route
 import scala.concurrent.ExecutionContext
 import scala.collection.JavaConversions._
 

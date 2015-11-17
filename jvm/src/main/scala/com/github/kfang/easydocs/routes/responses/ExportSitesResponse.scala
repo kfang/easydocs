@@ -1,8 +1,8 @@
 package com.github.kfang.easydocs.routes.responses
 
+import akka.http.scaladsl.server.Route
 import com.sksamuel.elastic4s.{SearchType, ElasticClient}
 import com.github.kfang.easydocs.models.ESSite
-import spray.routing.Route
 import com.sksamuel.elastic4s.ElasticDsl._
 import scala.concurrent.{Future, ExecutionContext}
 import spray.json._

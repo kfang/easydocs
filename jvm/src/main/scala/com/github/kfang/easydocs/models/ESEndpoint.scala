@@ -6,9 +6,9 @@ import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.{ElasticClient, StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.{MultiFieldType, StringType}
 import com.github.kfang.easydocs.utils.ERR
+import scala.concurrent.{ExecutionContext, Future}
 import spray.json.DefaultJsonProtocol._
 import spray.json._
-import scala.concurrent.{ExecutionContext, Future}
 
 case class ESEndpoint(
   id: String,
@@ -56,7 +56,7 @@ object ESEndpoint {
     "parameters".typed(StringType).analyzer(StandardAnalyzer)
   )
 
-  implicit val esEndpointJS = jsonFormat10(ESEndpoint.apply)
+  implicit val jsf = jsonFormat10(ESEndpoint.apply)
 
   def fromId(id: UUID)(implicit ec: ExecutionContext, client: ElasticClient): Future[ESEndpoint] = {
     client.execute(get.id(id.toString).from(ALIAS_TYPE)).map(getRes => {

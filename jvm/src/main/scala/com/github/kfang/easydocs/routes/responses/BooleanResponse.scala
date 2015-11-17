@@ -1,7 +1,7 @@
 package com.github.kfang.easydocs.routes.responses
 
+import akka.http.scaladsl.server.Route
 import spray.json.{JsBoolean, JsObject}
-import spray.routing.Route
 
 import scala.concurrent.ExecutionContext
 

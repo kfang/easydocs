@@ -20,13 +20,14 @@ object Build extends Build {
 
   lazy val serverSettings = Seq(
     libraryDependencies ++= Seq(
+      "com.typesafe.akka"      %% "akka-http-spray-json-experimental"  % "2.0-M1",
       "com.typesafe.akka"      %% "akka-http-experimental"  % "2.0-M1",
       "com.typesafe.akka"      %% "akka-slf4j"              % "2.3.8",
       "ch.qos.logback"          % "logback-classic"         % "1.0.7",
       "com.sksamuel.elastic4s" %% "elastic4s"               % "1.3.3",
-      "com.scalatags" %% "scalatags" % "0.4.2",
-      "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.3.3",
-      "com.github.rjeschke" % "txtmark" % "0.11"
+      "com.sksamuel.elastic4s" %% "elastic4s-jackson"       % "1.7.4",
+      "com.scalatags"          %% "scalatags"               % "0.4.2",
+      "com.github.rjeschke"     % "txtmark"                 % "0.11"
     )
   ) ++ Revolver.settings.settings
 
