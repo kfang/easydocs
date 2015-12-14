@@ -2,7 +2,7 @@ package com.github.kfang.easydocs
 
 import akka.actor.ActorSystem
 import com.sksamuel.elastic4s.ElasticClient
-import com.github.kfang.easydocs.services.IndexService
+import com.github.kfang.easydocs.services.{SitesHandler, IndexService}
 import org.elasticsearch.common.settings.ImmutableSettings
 
 case class AppServices(system: ActorSystem, config: AppConfig) {
@@ -17,5 +17,7 @@ case class AppServices(system: ActorSystem, config: AppConfig) {
   }
 
   val endpointService = system.actorOf(IndexService.props(elasticClient), "index-service")
+
+  SitesHandler.ensureSitesIndex(elasticClient)
 
 }
