@@ -2,9 +2,9 @@ package com.github.kfang.easydocs.models
 
 import java.util.UUID
 
+import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.analyzers.{StandardAnalyzer, KeywordAnalyzer}
-import com.sksamuel.elastic4s.{ElasticClient, StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.{MultiFieldType, StringType}
 import com.github.kfang.easydocs.utils.ERR
 import scala.concurrent.{ExecutionContext, Future}

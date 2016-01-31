@@ -3,7 +3,8 @@ package com.github.kfang.easydocs.models
 import java.util.UUID
 
 import com.sksamuel.elastic4s.ElasticDsl._
-import com.sksamuel.elastic4s.{ElasticClient, KeywordAnalyzer}
+import com.sksamuel.elastic4s.ElasticClient
+import com.sksamuel.elastic4s.analyzers.KeywordAnalyzer
 import com.sksamuel.elastic4s.mappings.FieldType.StringType
 import com.github.kfang.easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
@@ -33,7 +34,7 @@ object ESSite {
 
   def fromId(id: UUID)(implicit ec: ExecutionContext, client: ElasticClient): Future[ESSite] = {
     client.execute(get.id(id.toString).from(ALIAS_TYPE)).map(getRes => {
-      getRes.getSourceAsString.parseJson.convertTo[ESSite]
+      getRes.sourceAsString.parseJson.convertTo[ESSite]
     }).recover({
       case e: Exception => throw ERR.notFound(ERR.SITE_MISSING)
     })

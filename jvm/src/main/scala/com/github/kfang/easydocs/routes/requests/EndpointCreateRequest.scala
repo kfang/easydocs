@@ -2,15 +2,15 @@ package com.github.kfang.easydocs.routes.requests
 
 import java.util.UUID
 
+import com.github.kfang.easydocs.models.{ESEndpoint, ESSite}
+import com.github.kfang.easydocs.routes.responses.EndpointListResponse
+import com.github.kfang.easydocs.utils.ERR
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
-import com.sksamuel.elastic4s.source.ObjectSource
-import com.github.kfang.easydocs.models.{ESSite, ESEndpoint}
-import com.github.kfang.easydocs.routes.responses.{EndpointListResponse, BooleanResponse}
-import com.github.kfang.easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
+import spray.json._
 
-import scala.concurrent.{Future, ExecutionContext}
+import scala.concurrent.{ExecutionContext, Future}
 
 case class EndpointCreateRequest(
   site: String,
@@ -39,23 +39,23 @@ object EndpointCreateRequest {
     }
 
     private def checkTopicAndSubTopic: Future[Option[(String, String)]] = {
-      client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
-        term("site", request.site),
-        term("topic", request.topic),
-        term("subTopic", request.subTopic)
-      ))).map(_.getCount > 0).map({
+      client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(must(
+        termQuery("site", request.site),
+        termQuery("topic", request.topic),
+        termQuery("subTopic", request.subTopic)
+      )).size(0)).map(_.totalHits > 0).map({
         case true  => Some(ERR.TOPIC_SUBTOPIC_EXISTS)
         case false => None
       })
     }
 
     private def checkRouteMethodType: Future[Option[(String, String)]] = {
-      client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
-        term("site", request.site),
-        term("route", request.route),
-        term("method", request.method),
-        term("contentType", request.contentType)
-      ))).map(_.getCount > 0).map({
+      client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(must(
+        termQuery("site", request.site),
+        termQuery("route", request.route),
+        termQuery("method", request.method),
+        termQuery("contentType", request.contentType)
+      ))).map(_.totalHits > 0).map({
         case true => Some(ERR.ROUTE_METHOD_TYPE_EXISTS)
         case false => None
       })
@@ -97,7 +97,7 @@ object EndpointCreateRequest {
     })
 
     private def saveEndpoint(endpoint: ESEndpoint) = {
-      val cmd = index.into(ESEndpoint.ALIAS_TYPE).doc(ObjectSource(endpoint)).id(endpoint.id)
+      val cmd = index.into(ESEndpoint.ALIAS_TYPE).source(endpoint.toJson).id(endpoint.id)
       client.execute(cmd).map(_.isCreated)
     }
 
