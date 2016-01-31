@@ -32,11 +32,11 @@ object EndpointUpdateRequest {
       val topic = request.topic.getOrElse(endpoint.topic)
       val subTopic = request.subTopic.getOrElse(endpoint.subTopic)
 
-      client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
-        not(ids(endpoint.id)),
-        term("topic", topic),
-        term("subTopic", subTopic)
-      ))).map(_.getCount > 0).map({
+      client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(must(
+        not(idsQuery(endpoint.id)),
+        termQuery("topic", topic),
+        termQuery("subTopic", subTopic)
+      )).size(0)).map(sr => sr.totalHits.toInt > 0).map({
         case true  => Some(ERR.TOPIC_SUBTOPIC_EXISTS)
         case false => None
       })

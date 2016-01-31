@@ -24,8 +24,7 @@ object Build extends Build {
       "com.typesafe.akka"      %% "akka-http-experimental"  % "2.0-M1",
       "com.typesafe.akka"      %% "akka-slf4j"              % "2.3.8",
       "ch.qos.logback"          % "logback-classic"         % "1.0.7",
-      "com.sksamuel.elastic4s" %% "elastic4s"               % "1.3.3",
-      "com.sksamuel.elastic4s" %% "elastic4s-jackson"       % "1.7.4",
+      "com.sksamuel.elastic4s" %% "elastic4s-core"          % "2.1.1",
       "com.scalatags"          %% "scalatags"               % "0.4.2",
       "com.github.rjeschke"     % "txtmark"                 % "0.11"
     )

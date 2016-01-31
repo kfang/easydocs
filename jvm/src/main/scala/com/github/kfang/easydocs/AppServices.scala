@@ -18,6 +18,6 @@ case class AppServices(system: ActorSystem, config: AppConfig) {
 
   val endpointService = system.actorOf(IndexService.props(elasticClient), "index-service")
 
-  SitesHandler.ensureSitesIndex(elasticClient)
+  SitesHandler.ensureSitesIndex(elasticClient)(system)
 
 }

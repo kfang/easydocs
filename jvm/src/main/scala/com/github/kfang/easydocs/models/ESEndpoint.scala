@@ -3,6 +3,7 @@ package com.github.kfang.easydocs.models
 import java.util.UUID
 
 import com.sksamuel.elastic4s.ElasticDsl._
+import com.sksamuel.elastic4s.analyzers.{StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.{ElasticClient, StandardAnalyzer, KeywordAnalyzer}
 import com.sksamuel.elastic4s.mappings.FieldType.{MultiFieldType, StringType}
 import com.github.kfang.easydocs.utils.ERR
@@ -60,7 +61,7 @@ object ESEndpoint {
 
   def fromId(id: UUID)(implicit ec: ExecutionContext, client: ElasticClient): Future[ESEndpoint] = {
     client.execute(get.id(id.toString).from(ALIAS_TYPE)).map(getRes => {
-      getRes.getSourceAsString.parseJson.convertTo[ESEndpoint]
+      getRes.sourceAsString.parseJson.convertTo[ESEndpoint]
     }).recover({
       case e: Exception => throw ERR.notFound(ERR.ENDPOINT_MISSING)
     })
