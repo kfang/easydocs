@@ -38,7 +38,7 @@ object SiteCreateRequest {
         id = UUID.randomUUID().toString,
         name = request.name
       )
-      client.execute(index.into(ESSite.ALIAS_TYPE).source(site.toJson).id(site.id))
+      client.execute(index.into(ESSite.ALIAS_TYPE).source(site.toJson.compactPrint).id(site.id))
         .map(res => SiteCreateResponse(site))
     }
 

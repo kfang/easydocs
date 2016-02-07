@@ -97,7 +97,7 @@ object EndpointCreateRequest {
     })
 
     private def saveEndpoint(endpoint: ESEndpoint) = {
-      val cmd = index.into(ESEndpoint.ALIAS_TYPE).source(endpoint.toJson).id(endpoint.id)
+      val cmd = index.into(ESEndpoint.ALIAS_TYPE).source(endpoint.toJson.compactPrint).id(endpoint.id)
       client.execute(cmd).map(_.isCreated)
     }
 

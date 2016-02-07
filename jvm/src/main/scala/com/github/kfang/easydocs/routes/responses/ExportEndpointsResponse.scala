@@ -12,7 +12,7 @@ case class ExportEndpointsResponse(client: ElasticClient)(implicit ec: Execution
   private def getEndpoints: Future[List[ESEndpoint]] = {
 
     def _getEndpoints(scrollID: String): Future[List[ESEndpoint]] = {
-      client.searchScroll(scrollID, "1m").flatMap(sr => {
+      client.execute(searchScroll(scrollID).keepAlive("1m")).flatMap(sr => {
         val sites = sr.getHits.hits().toList.map(_.sourceAsString().parseJson.convertTo[ESEndpoint])
         if(sites.isEmpty) Future.successful(sites) else _getEndpoints(sr.getScrollId).map(_ ++ sites)
       })

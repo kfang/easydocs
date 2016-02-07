@@ -12,9 +12,9 @@ case class ExportSitesResponse(client: ElasticClient)(implicit ec: ExecutionCont
   private def getSites: Future[List[ESSite]] = {
 
     def _getSites(scrollID: String): Future[List[ESSite]] = {
-      client.searchScroll(scrollID, "1m").flatMap(sr => {
-        val sites = sr.getHits.hits().toList.map(_.sourceAsString().parseJson.convertTo[ESSite])
-        if(sites.isEmpty) Future.successful(sites) else _getSites(sr.getScrollId).map(_ ++ sites)
+      client.execute(searchScroll(scrollID).keepAlive("1m")).flatMap(sr => {
+        val sites = sr.hits.toList.map(_.sourceAsString.parseJson.convertTo[ESSite])
+        if(sites.isEmpty) Future.successful(sites) else _getSites(sr.scrollId).map(_ ++ sites)
       })
     }
 

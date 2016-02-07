@@ -13,12 +13,12 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
 
   private def createIndex(): Future[Boolean] = {
     elasticClient
-      .execute(create.index(EZSite.INDEX).mappings().analysis().replicas(1))
+      .execute(create.index(EZSite.INDEX).mappings().replicas(1))
       .map(_.isAcknowledged)
   }
 
   private def ensureIndex(): Future[Boolean] = {
-    elasticClient.exists(EZSite.INDEX).flatMap(_.isExists match {
+    elasticClient.execute(index.exists(EZSite.INDEX)).flatMap(_.isExists match {
       case true  => Future.successful(false)
       case false => createIndex()
     }).andThen({

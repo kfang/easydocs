@@ -13,7 +13,7 @@ case class SiteListResponse(
 ) extends Response {
 
   override def finish(implicit ec: ExecutionContext): Route = {
-    client.execute(search.in(ESSite.ALIAS_TYPE).query(matchall).limit(10000)).map(res => {
+    client.execute(search.in(ESSite.ALIAS_TYPE).query(matchAllQuery).limit(10000)).map(res => {
       val sites = JsArray(res.getHits.hits().toVector.map(_.sourceAsString().parseJson))
       JsObject(
         "sites" -> sites

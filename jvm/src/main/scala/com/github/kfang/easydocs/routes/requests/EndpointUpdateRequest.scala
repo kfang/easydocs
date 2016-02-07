@@ -79,7 +79,7 @@ object EndpointUpdateRequest {
         update
           .id(endpoint.id)
           .in(ESEndpoint.ALIAS_TYPE)
-          .source(Seq(
+          .doc(Seq(
             request.topic.map(s => "topic" -> s),
             request.subTopic.map(s => "subTopic" -> s),
             request.notes.map(s => "notes" -> s),
@@ -88,7 +88,7 @@ object EndpointUpdateRequest {
             request.contentType.map(s => "contentType" -> s),
             request.authentication.map(s => "authentication" -> s),
             request.parameters.map(s => "parameters" -> s)
-          ).flatten.toMap.toJson)
+          ).flatten)
       case ers => throw ERR.badRequest(ers)
     })
 
