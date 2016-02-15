@@ -32,9 +32,11 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
     }).andThen({
       case Success(b) => log.debug(s"Sites index created: $b")
       case Failure(e) => log.error(e, "Failed to create sites index")
-    }).andThen({
-      case _ => self ! PoisonPill
     })
+  }
+
+  override def preStart(): Unit = {
+    self ! "ENSURE_INDEX"
   }
 
   def receive = {
@@ -45,10 +47,7 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
 }
 
 object SitesHandler {
-  private def props(elasticClient: ElasticClient): Props = Props(classOf[SitesHandler], elasticClient)
-
-  def ensureSitesIndex(elasticClient: ElasticClient)(implicit actorRefFactory: ActorRefFactory): Unit = {
-    actorRefFactory.actorOf(props(elasticClient)) ! "ENSURE_INDEX"
-  }
+  val NAME = "ez-sites-handler"
+  def props(elasticClient: ElasticClient): Props = Props(classOf[SitesHandler], elasticClient)
 }
 

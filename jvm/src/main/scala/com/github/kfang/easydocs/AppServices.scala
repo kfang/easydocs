@@ -12,8 +12,7 @@ case class AppServices(system: ActorSystem, config: AppConfig) {
     .put("http.enabled", false)
     .put("path.home", "~/elastic/data")
   val elasticClient = ElasticClient.local(esClientSettings.build)
+
   val endpointService = system.actorOf(IndexService.props(elasticClient), "index-service")
-
-  SitesHandler.ensureSitesIndex(elasticClient)(system)
-
+  val sitesHandler = system.actorOf(SitesHandler.props(elasticClient), SitesHandler.NAME)
 }
