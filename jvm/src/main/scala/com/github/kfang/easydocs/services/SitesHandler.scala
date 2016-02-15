@@ -1,6 +1,9 @@
 package com.github.kfang.easydocs.services
 
+import java.util.UUID
+
 import akka.actor._
+import com.github.kfang.easydocs.services.SitesHandler.{GetSiteByIDRequest, SiteHandlerRequest}
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.analyzers.{StandardAnalyzer, KeywordAnalyzer}
@@ -35,12 +38,22 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
     })
   }
 
+
+  //TODO: finish this; need a json serializer/deserializer
+  private def getSiteByID(msg: GetSiteByIDRequest, requester: ActorRef): Unit = {
+  }
+
+  private def onSiteHandlerRequest(msg: SiteHandlerRequest, requester: ActorRef): Unit = msg match {
+    case r: GetSiteByIDRequest => getSiteByID(r, requester)
+  }
+
   override def preStart(): Unit = {
     self ! "ENSURE_INDEX"
   }
 
   def receive = {
     case "ENSURE_INDEX" => ensureIndex()
+    case msg: SiteHandlerRequest => onSiteHandlerRequest(msg, sender())
     case msg => log.debug("unknown message received"); self ! PoisonPill
   }
 
@@ -49,5 +62,9 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
 object SitesHandler {
   val NAME = "ez-sites-handler"
   def props(elasticClient: ElasticClient): Props = Props(classOf[SitesHandler], elasticClient)
+
+
+  trait SiteHandlerRequest
+  case class GetSiteByIDRequest(id: UUID) extends SiteHandlerRequest
 }
 
