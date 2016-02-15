@@ -1,28 +1,37 @@
 package com.github.kfang.easydocs.services
 
 import akka.actor._
-import com.github.kfang.easydocs.models.EZSite
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
+import com.sksamuel.elastic4s.analyzers.{StandardAnalyzer, KeywordAnalyzer}
+import com.sksamuel.elastic4s.mappings.DynamicMapping
+import com.sksamuel.elastic4s.mappings.FieldType.StringType
 
 import scala.concurrent.Future
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging {
   import context.dispatcher
 
+  private val INDEX = "ezdocs-sites"
+  private val MAPPING = mapping("site").fields(
+    field("id").typed(StringType).analyzer(KeywordAnalyzer),
+    field("name").typed(StringType).analyzer(StandardAnalyzer)
+  ).dynamic(DynamicMapping.False)
+
   private def createIndex(): Future[Boolean] = {
     elasticClient
-      .execute(create.index(EZSite.INDEX).mappings().replicas(1))
+      .execute(create.index(INDEX).mappings(MAPPING).replicas(1))
       .map(_.isAcknowledged)
   }
 
   private def ensureIndex(): Future[Boolean] = {
-    elasticClient.execute(index.exists(EZSite.INDEX)).flatMap(_.isExists match {
+    elasticClient.execute(index.exists(INDEX)).flatMap(_.isExists match {
       case true  => Future.successful(false)
       case false => createIndex()
     }).andThen({
       case Success(b) => log.debug(s"Sites index created: $b")
+      case Failure(e) => log.error(e, "Failed to create sites index")
     }).andThen({
       case _ => self ! PoisonPill
     })
@@ -42,3 +51,4 @@ object SitesHandler {
     actorRefFactory.actorOf(props(elasticClient)) ! "ENSURE_INDEX"
   }
 }
+
