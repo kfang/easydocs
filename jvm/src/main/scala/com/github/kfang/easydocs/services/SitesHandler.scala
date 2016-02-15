@@ -39,11 +39,14 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
     })
   }
 
-  private def getSiteByID(msg: GetSiteByIDRequest, requester: ActorRef): Unit = {
+  private def getSiteByID(msg: GetSiteByIDRequest, requester: ActorRef): Future[Option[EZSite]] = {
     import upickle.default._
     elasticClient.execute(get.id(msg.id.toString).from(INDEX)).map(richGetResponse => {
-      requester ! Some(read[EZSite](richGetResponse.sourceAsString))
-    }).recover({ case e => requester ! None })
+      Some(read[EZSite](richGetResponse.sourceAsString))
+    }).recover({ case e => None }).andThen({
+      case Success(r) => requester ! r
+      case Failure(e) => log.error(e, "getSiteByID error"); requester ! None)
+    })
   }
 
   private def onSiteHandlerRequest(msg: SiteHandlerRequest, requester: ActorRef): Unit = msg match {
