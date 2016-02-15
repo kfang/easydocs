@@ -3,6 +3,7 @@ package com.github.kfang.easydocs.services
 import java.util.UUID
 
 import akka.actor._
+import com.github.kfang.easydocs.models.EZSite
 import com.github.kfang.easydocs.services.SitesHandler.{GetSiteByIDRequest, SiteHandlerRequest}
 import com.sksamuel.elastic4s.ElasticClient
 import com.sksamuel.elastic4s.ElasticDsl._
@@ -38,9 +39,11 @@ class SitesHandler(elasticClient: ElasticClient) extends Actor with ActorLogging
     })
   }
 
-
-  //TODO: finish this; need a json serializer/deserializer
   private def getSiteByID(msg: GetSiteByIDRequest, requester: ActorRef): Unit = {
+    import upickle.default._
+    elasticClient.execute(get.id(msg.id.toString).from(INDEX)).map(richGetResponse => {
+      requester ! Some(read[EZSite](richGetResponse.sourceAsString))
+    }).recover({ case e => requester ! None })
   }
 
   private def onSiteHandlerRequest(msg: SiteHandlerRequest, requester: ActorRef): Unit = msg match {

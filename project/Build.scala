@@ -26,13 +26,14 @@ object Build extends Build {
       "ch.qos.logback"          % "logback-classic"         % "1.0.7",
       "com.sksamuel.elastic4s" %% "elastic4s-core"          % "2.1.1",
       "com.scalatags"          %% "scalatags"               % "0.4.2",
-      "com.github.rjeschke"     % "txtmark"                 % "0.11"
+      "com.github.rjeschke"     % "txtmark"                 % "0.11",
+      "com.lihaoyi"            %% "upickle"                 % "0.3.8"
     )
   ) ++ Revolver.settings.settings
 
   lazy val clientSettings = Seq(
     libraryDependencies ++= Seq(
-      "com.lihaoyi"  %%% "upickle"        % "0.3.6",
+      "com.lihaoyi"  %%% "upickle"        % "0.3.8",
       "com.lihaoyi"  %%% "scalatags"      % "0.5.2",
       "be.doeraene"  %%% "scalajs-jquery" % "0.8.0"
     ),
