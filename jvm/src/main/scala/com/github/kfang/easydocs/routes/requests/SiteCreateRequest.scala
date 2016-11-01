@@ -3,11 +3,11 @@ package com.github.kfang.easydocs.routes.requests
 import java.util.UUID
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.ElasticClient
-import com.sksamuel.elastic4s.source.ObjectSource
 import com.github.kfang.easydocs.models.ESSite
 import com.github.kfang.easydocs.routes.responses.SiteCreateResponse
 import com.github.kfang.easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
+import spray.json._
 
 import scala.concurrent.{Future, ExecutionContext}
 
@@ -38,9 +38,8 @@ object SiteCreateRequest {
         id = UUID.randomUUID().toString,
         name = request.name
       )
-      client.execute(index.into(ESSite.ALIAS_TYPE).doc(ObjectSource(site)).id(site.id)).map(res => {
-        SiteCreateResponse(site)
-      })
+      client.execute(index.into(ESSite.ALIAS_TYPE).source(site.toJson.compactPrint).id(site.id))
+        .map(res => SiteCreateResponse(site))
     }
 
     def getResponse: Future[SiteCreateResponse] = (for {

@@ -1,3 +1,10 @@
+##Currently Under Maintenance
+Please see the github issues for things that need to happen.
+- upgrade to using scala.js for the frontend
+- upgrade to using akka-http form spray.io
+- use upickle instead of spray-json
+
+
 ##Http Endpoints
 ###Sites
 - **GET**  /api/sites

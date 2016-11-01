@@ -1,12 +1,13 @@
 package com.github.kfang.easydocs.routes
 
+import akka.http.scaladsl.server.Route
 import com.sksamuel.elastic4s.ElasticClient
 import com.github.kfang.easydocs.models.ESEndpoint
 import com.github.kfang.easydocs.routes.requests.{EndpointDeleteRequest, EndpointUpdateRequest, EndpointCreateRequest}
 import com.github.kfang.easydocs.routes.requests.EndpointUpdateRequest.EndpointUpdate
 import com.github.kfang.easydocs.AppPackage
 import com.github.kfang.easydocs.routes.responses.EndpointListResponse
-import spray.routing.Route
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
 
 class ApiEndpointRoutes(implicit App: AppPackage) extends ExtendedDirectives(App) {

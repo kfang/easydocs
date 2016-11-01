@@ -1,11 +1,11 @@
 package com.github.kfang.easydocs.routes.requests
 
-import com.sksamuel.elastic4s.ElasticClient
-import com.sksamuel.elastic4s.source.ObjectSource
+import com.sksamuel.elastic4s.{UpdateDefinition, ElasticClient}
 import com.github.kfang.easydocs.models.ESEndpoint
 import com.github.kfang.easydocs.routes.responses.BooleanResponse
 import com.github.kfang.easydocs.utils.ERR
 import spray.json.DefaultJsonProtocol._
+import spray.json._
 import com.sksamuel.elastic4s.ElasticDsl._
 import scala.concurrent.{Future, ExecutionContext}
 
@@ -32,11 +32,11 @@ object EndpointUpdateRequest {
       val topic = request.topic.getOrElse(endpoint.topic)
       val subTopic = request.subTopic.getOrElse(endpoint.subTopic)
 
-      client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
-        not(ids(endpoint.id)),
-        term("topic", topic),
-        term("subTopic", subTopic)
-      ))).map(_.getCount > 0).map({
+      client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(must(
+        not(idsQuery(endpoint.id)),
+        termQuery("topic", topic),
+        termQuery("subTopic", subTopic)
+      )).size(0)).map(sr => sr.totalHits.toInt > 0).map({
         case true  => Some(ERR.TOPIC_SUBTOPIC_EXISTS)
         case false => None
       })
@@ -47,12 +47,12 @@ object EndpointUpdateRequest {
       val method = request.route.getOrElse(endpoint.method)
       val cType = request.contentType.getOrElse(endpoint.contentType)
 
-      client.execute(count(ESEndpoint.ALIAS_TYPE).where(must(
-        not(ids(endpoint.id)),
-        term("route", route),
-        term("method", method),
-        term("contentType", cType)
-      ))).map(_.getCount > 0).map({
+      client.execute(search.in(ESEndpoint.ALIAS_TYPE).query(must(
+        not(idsQuery(endpoint.id)),
+        termQuery("route", route),
+        termQuery("method", method),
+        termQuery("contentType", cType)
+      )).size(0)).map(_.totalHits.toInt > 0).map({
         case true => Some(ERR.ROUTE_METHOD_TYPE_EXISTS)
         case false => None
       })
@@ -79,7 +79,7 @@ object EndpointUpdateRequest {
         update
           .id(endpoint.id)
           .in(ESEndpoint.ALIAS_TYPE)
-          .doc(ObjectSource(Seq(
+          .doc(Seq(
             request.topic.map(s => "topic" -> s),
             request.subTopic.map(s => "subTopic" -> s),
             request.notes.map(s => "notes" -> s),
@@ -88,7 +88,7 @@ object EndpointUpdateRequest {
             request.contentType.map(s => "contentType" -> s),
             request.authentication.map(s => "authentication" -> s),
             request.parameters.map(s => "parameters" -> s)
-          ).flatten.toMap))
+          ).flatten)
       case ers => throw ERR.badRequest(ers)
     })
 

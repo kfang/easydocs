@@ -14,7 +14,7 @@ object EndpointDeleteRequest {
   implicit class EndpointDelete(request: EndpointDeleteRequest)(implicit ec: ExecutionContext, client: ElasticClient){
     def getResponse: Future[BooleanResponse] = {
       client.execute(
-        delete.id(request.endpoint.id).from(ESEndpoint.ALIAS).types(ESEndpoint.TYPE)
+        delete.id(request.endpoint.id).from(ESEndpoint.ALIAS -> ESEndpoint.TYPE)
       ).map(delRes => {
         BooleanResponse(b = delRes.isFound)
       })

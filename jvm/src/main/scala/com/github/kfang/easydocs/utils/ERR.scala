@@ -1,10 +1,10 @@
 package com.github.kfang.easydocs.utils
 
-import spray.http.{StatusCode, StatusCodes}
-import spray.httpx.SprayJsonSupport._
-import spray.json.DefaultJsonProtocol._
+import akka.http.scaladsl.model.{StatusCodes, StatusCode}
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.directives.RouteDirectives
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import spray.json._
-import spray.routing.directives.RouteDirectives
 
 case class ERR(code: StatusCode, errors: Map[String, JsValue]) extends Exception {
 
@@ -13,7 +13,7 @@ case class ERR(code: StatusCode, errors: Map[String, JsValue]) extends Exception
     (code, JsObject("meta" -> body))
   }
 
-  def complete: spray.routing.Route = RouteDirectives.complete(error)
+  def complete: Route = RouteDirectives.complete(error)
 }
 
 object ERR {
